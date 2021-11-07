@@ -1,0 +1,333 @@
+"Source","Statistic","df1","df2","Test.Comparison","Value","Reported.Comparison","Reported.P.Value","Computed","Raw","Error","DecisionError","OneTail","OneTailedInTxt","APAfactor"
+"07. 2014 - Pathological video game playing in Spanish and Bri","Z",NA,NA,"=",12.48,"<",0.001,9.59866511483775e-36,"Z= 12.48, p < .001",FALSE,FALSE,FALSE,FALSE,0.83
+"07. 2014 - Pathological video game playing in Spanish and Bri","Z",NA,NA,"=",14.23,"<",0.001,5.96817749517224e-46,"Z= 14.23, p < .001",FALSE,FALSE,FALSE,FALSE,0.83
+"07. 2014 - Pathological video game playing in Spanish and Bri","Z",NA,NA,"=",10.07,"<",0.001,7.4978084792484e-24,"Z= 10.07, p < .001",FALSE,FALSE,FALSE,FALSE,0.83
+"07. 2014 - Pathological video game playing in Spanish and Bri","Z",NA,NA,"=",13.02,"<",0.001,9.41709078787815e-39,"
+Z= 13.02, p < .001",FALSE,FALSE,FALSE,FALSE,0.83
+"07. 2014 - Pathological video game playing in Spanish and Bri","Z",NA,NA,"=",10.96,"<",0.001,5.94993687541268e-28,"Z= 10.96, p < .001",FALSE,FALSE,FALSE,FALSE,0.83
+"07. 2014 - Pathological video game playing in Spanish and Bri","Z",NA,NA,"=",13.3,"<",0.001,2.31468325673807e-40,"Z= 13.30, p < .001",FALSE,FALSE,FALSE,FALSE,0.83
+"07. 2014 - Pathological video game playing in Spanish and Bri","Z",NA,NA,"=",7.62,"<",0.001,2.53675716924854e-14,"Z= 7.62, p < .001",FALSE,FALSE,FALSE,FALSE,0.83
+"07. 2014 - Pathological video game playing in Spanish and Bri","Z",NA,NA,"=",7.87,"<",0.001,3.54641251754789e-15,"Z= 7.87, p < .001",FALSE,FALSE,FALSE,FALSE,0.83
+"07. 2014 - Pathological video game playing in Spanish and Bri","Z",NA,NA,"=",7.52,"<",0.001,5.47762422026025e-14,"Z= 7.52, p < .001",FALSE,FALSE,FALSE,FALSE,0.83
+"07. 2014 - Pathological video game playing in Spanish and Bri","Z",NA,NA,"=",9.32,"<",0.001,1.16340301568611e-20,"Z= 9.32, p < .001",FALSE,FALSE,FALSE,FALSE,0.83
+"07. 2014 - Pathological video game playing in Spanish and Bri","Z",NA,NA,"=",8.7,"<",0.001,3.31884173992957e-18,"Z= 8.70, p < .001",FALSE,FALSE,FALSE,FALSE,0.83
+"07. 2014 - Pathological video game playing in Spanish and Bri","Z",NA,NA,"=",8.33,"<",0.001,8.08423548275399e-17,"Z= 8.33, p < .001",FALSE,FALSE,FALSE,FALSE,0.83
+"07. 2014 - Pathological video game playing in Spanish and Bri","Chi2",2,NA,"=",1.87,"=",0.393,0.392585865531518," H(2)=1.87, p=.393",FALSE,FALSE,FALSE,FALSE,0.83
+"07. 2014 - Pathological video game playing in Spanish and Bri","Z",NA,NA,"=",15.35,"<",0.001,3.54186399332621e-53,"Z= 15.35, p < .001",FALSE,FALSE,FALSE,FALSE,0.83
+"07. 2014 - Pathological video game playing in Spanish and Bri","Z",NA,NA,"=",21.17,"<",0.001,1.80557441909272e-99,"
+Z= 21.17, p < .001",FALSE,FALSE,FALSE,FALSE,0.83
+"107. 2017 - Cognitive control and rewardloss processing in In","F",2,56,"=",0.21,"=",0.81,0.811219656150822,"F (2, 56) = 0.21,
+P = 0.81",FALSE,FALSE,FALSE,TRUE,0.21
+"107. 2017 - Cognitive control and rewardloss processing in In","F",2,56,"=",4.586,"=",0.014,0.0143072243933526,"F (2, 56) = 4.586, P = 0.014",FALSE,FALSE,FALSE,TRUE,0.21
+"107. 2017 - Cognitive control and rewardloss processing in In","F",2,56,"=",0.844,">",0.05,0.435382776596342,"F (2,
+56) = 0.844, P > 0.05",FALSE,FALSE,FALSE,TRUE,0.21
+"108. 2017 - Combined reality therapy and mindfulness meditatio","F",1,35,"=",15.9,"<",0.001,0.000323711988627824,"F(1,35) = 15.90, P < 0.001",FALSE,FALSE,FALSE,FALSE,0.48
+"108. 2017 - Combined reality therapy and mindfulness meditatio","F",1,35,"=",0.06,"=",0.81,0.807926439503298,"F(1,35) = 0.06, P = 0.81",FALSE,FALSE,FALSE,FALSE,0.48
+"108. 2017 - Combined reality therapy and mindfulness meditatio","F",1,35,"=",10.79,"=",0.002,0.00232336039533143,"F(1,35) = 10.79, P = 0.002",FALSE,FALSE,FALSE,FALSE,0.48
+"108. 2017 - Combined reality therapy and mindfulness meditatio","F",1,35,"=",0.78,"=",0.38,0.383167362999895,"F(1,35) = 0.78, P = 0.38",FALSE,FALSE,FALSE,FALSE,0.48
+"108. 2017 - Combined reality therapy and mindfulness meditatio","F",1,35,"=",39.72,"<",0.001,3.09204469458139e-07,"F(1,35)
+= 39.72, P < 0.001",FALSE,FALSE,FALSE,FALSE,0.48
+"108. 2017 - Combined reality therapy and mindfulness meditatio","F",1,35,"=",15.86,"<",0.001,0.000328441591031997,"F(1,35) = 15.86, P < 0.001",FALSE,FALSE,FALSE,FALSE,0.48
+"108. 2017 - Combined reality therapy and mindfulness meditatio","F",1,35,"=",81.76,"<",0.001,1.10364760765051e-10,"F(1,35) = 81.76, P < 0.001",FALSE,FALSE,FALSE,FALSE,0.48
+"108. 2017 - Combined reality therapy and mindfulness meditatio","F",1,35,"=",5.06,"=",0.03,0.0308769240149794,"F(1,35) = 5.06, P = 0.03",FALSE,FALSE,FALSE,FALSE,0.48
+"108. 2017 - Combined reality therapy and mindfulness meditatio","F",1,35,"=",0.69,"=",0.41,0.411795127946069,"F(1,35) = 0.69, P = 0.41",FALSE,FALSE,FALSE,FALSE,0.48
+"108. 2017 - Combined reality therapy and mindfulness meditatio","F",1,35,"=",0.2,"=",0.66,0.657476308670457,"F(1,35) = 0.20, P = 0.66",FALSE,FALSE,FALSE,FALSE,0.48
+"108. 2017 - Combined reality therapy and mindfulness meditatio","F",1,35,"=",41.73,"<",0.001,1.92307131624347e-07,"F(1,35) = 41.73, P < 0.001",FALSE,FALSE,FALSE,FALSE,0.48
+"108. 2017 - Combined reality therapy and mindfulness meditatio","F",1,35,"=",4.93,"=",0.03,0.0329648173076372,"F(1,35) = 4.93, P = 0.03",FALSE,FALSE,FALSE,FALSE,0.48
+"108. 2017 - Combined reality therapy and mindfulness meditatio","F",1,35,"=",5.36,"=",0.03,0.026588954848752,"F(1,35) = 5.36, P = 0.03",FALSE,FALSE,FALSE,FALSE,0.48
+"110. 2017 - Comparing the effects of bupropion and escitalopra","Z",NA,NA,"=",-1.43,"=",0.15,0.152717019073478,"
+Z= -1.43, p= 0.15",FALSE,FALSE,FALSE,FALSE,0.52
+"110. 2017 - Comparing the effects of bupropion and escitalopra","Z",NA,NA,"=",0.29,"=",0.77,0.771816237602245,"
+Z= 0.29, p= 0.77",FALSE,FALSE,FALSE,FALSE,0.52
+"110. 2017 - Comparing the effects of bupropion and escitalopra","Z",NA,NA,"=",-0.62,"=",0.53,0.535257786937966,"
+Z= -0.62, p= 0.53",FALSE,FALSE,FALSE,FALSE,0.52
+"110. 2017 - Comparing the effects of bupropion and escitalopra","Z",NA,NA,"=",-1.51,"=",0.13,0.131043424177833,"
+Z= -1.51, p= 0.13",FALSE,FALSE,FALSE,FALSE,0.52
+"110. 2017 - Comparing the effects of bupropion and escitalopra","Z",NA,NA,"=",1.92,"=",0.06,0.0548578994076736,"
+Z= 1.92, p= 0.06",FALSE,FALSE,FALSE,FALSE,0.52
+"110. 2017 - Comparing the effects of bupropion and escitalopra","Z",NA,NA,"=",1.16,"=",0.24,0.246048806102687,"
+Z= 1.16, p= 0.24",FALSE,FALSE,FALSE,FALSE,0.52
+"110. 2017 - Comparing the effects of bupropion and escitalopra","Z",NA,NA,"=",-1.43,"=",0.15,0.152717019073478,"
+Z= -1.43, p= 0.15",FALSE,FALSE,FALSE,FALSE,0.52
+"110. 2017 - Comparing the effects of bupropion and escitalopra","Z",NA,NA,"=",1.2,"=",0.23,0.230139340443417,"
+Z= 1.20, p= 0.23",FALSE,FALSE,FALSE,FALSE,0.52
+"110. 2017 - Comparing the effects of bupropion and escitalopra","Z",NA,NA,"=",-0.6,"=",0.55,0.548506235500147,"
+Z= -0.60, p= 0.55",FALSE,FALSE,FALSE,FALSE,0.52
+"110. 2017 - Comparing the effects of bupropion and escitalopra","Z",NA,NA,"=",-1.43,"=",0.15,0.152717019073478,"Z= -1.43,
+p= 0.15",FALSE,FALSE,FALSE,FALSE,0.52
+"110. 2017 - Comparing the effects of bupropion and escitalopra","Z",NA,NA,"=",0.29,"=",0.77,0.771816237602245,"Z= 0.29, p= 0.77",FALSE,FALSE,FALSE,FALSE,0.52
+"110. 2017 - Comparing the effects of bupropion and escitalopra","Z",NA,NA,"=",-0.62,"=",0.53,0.535257786937966,"Z= -0.62, p= 0.53",FALSE,FALSE,FALSE,FALSE,0.52
+"110. 2017 - Comparing the effects of bupropion and escitalopra","Z",NA,NA,"=",1.92,"=",0.06,0.0548578994076736,"Z= 1.92, p= 0.06",FALSE,FALSE,FALSE,FALSE,0.52
+"110. 2017 - Comparing the effects of bupropion and escitalopra","Z",NA,NA,"=",-1.43,"=",0.15,0.152717019073478,"Z= -1.43, p= 0.15",FALSE,FALSE,FALSE,FALSE,0.52
+"110. 2017 - Comparing the effects of bupropion and escitalopra","Z",NA,NA,"=",1.2,"=",0.23,0.230139340443417,"Z= 1.20, p= 0.23",FALSE,FALSE,FALSE,FALSE,0.52
+"110. 2017 - Comparing the effects of bupropion and escitalopra","Z",NA,NA,"=",1.3,"=",0.18,0.193600969171221,"Z= 1.3,
+p= 0.18",FALSE,FALSE,FALSE,FALSE,0.52
+"111. 2017 - CORRELATES OF PROBLEMATIC GAMING - IS THERE SUPPOR","Chi2",1,NA,"=",84.69,"<",0.001,3.49011182221674e-20,"
+((1)=84.69, p<0.001",FALSE,FALSE,FALSE,FALSE,0.5
+"111. 2017 - CORRELATES OF PROBLEMATIC GAMING - IS THERE SUPPOR","t",NA,757,"=",11.32,"=",0,1.48561713930157e-27,"t(757)= 11.32,
+p= 0.000",TRUE,FALSE,FALSE,FALSE,0.5
+"111. 2017 - CORRELATES OF PROBLEMATIC GAMING - IS THERE SUPPOR","t",NA,767,"=",4.58,"=",0,5.42451263385528e-06,"t(767)= 4.58,
+p= 0.000",TRUE,FALSE,FALSE,FALSE,0.5
+"111. 2017 - CORRELATES OF PROBLEMATIC GAMING - IS THERE SUPPOR","t",NA,763,"=",4.97,"=",0,8.27127326576449e-07,"t(763)= 4.97, p= 0.000",TRUE,FALSE,FALSE,FALSE,0.5
+"111. 2017 - CORRELATES OF PROBLEMATIC GAMING - IS THERE SUPPOR","Chi2",3,NA,"=",226.5,"<",0.001,7.89821523795924e-49," ((3)=226.5, p<0.001",FALSE,FALSE,FALSE,FALSE,0.5
+"111. 2017 - CORRELATES OF PROBLEMATIC GAMING - IS THERE SUPPOR","Chi2",3,NA,"=",79.71,"<",0.001,3.54192459178436e-17," ((3)=79.71,
+p<0.001",FALSE,FALSE,FALSE,FALSE,0.5
+"111. 2017 - CORRELATES OF PROBLEMATIC GAMING - IS THERE SUPPOR","t",NA,757,"=",9.9,"=",0,8.22204601455631e-22,"t(757)= 9.90, p= 0.000",TRUE,FALSE,FALSE,FALSE,0.5
+"111. 2017 - CORRELATES OF PROBLEMATIC GAMING - IS THERE SUPPOR","t",NA,767,"=",6.09,"=",0,1.78455343697574e-09,"t(767)= 6.09, p= 0.000",TRUE,FALSE,FALSE,FALSE,0.5
+"111. 2017 - CORRELATES OF PROBLEMATIC GAMING - IS THERE SUPPOR","t",NA,763,"=",4.74,"=",0,2.54970823611023e-06,"t(763)= 4.74,
+p= 0.000",TRUE,FALSE,FALSE,FALSE,0.5
+"111. 2017 - CORRELATES OF PROBLEMATIC GAMING - IS THERE SUPPOR","t",NA,767,"=",-4.66,"=",0,3.72781069996501e-06,"t(767)= -4.66,
+p= 0.000",TRUE,FALSE,FALSE,FALSE,0.5
+"111. 2017 - CORRELATES OF PROBLEMATIC GAMING - IS THERE SUPPOR","t",NA,763,"=",-5.79,"=",0,1.02825360246067e-08,"t(763)= -5.79,
+p= 0.000",TRUE,FALSE,FALSE,FALSE,0.5
+"111. 2017 - CORRELATES OF PROBLEMATIC GAMING - IS THERE SUPPOR","t",NA,729,"=",-4.53,"=",0,6.88998767975905e-06,"t(729)= -4.53, p= 0.000",TRUE,FALSE,FALSE,FALSE,0.5
+"11. 2014 - Similarities and differences among Internet gaming","F",3,56,"=",7.114,"<",0.001,0.000392922189710407,"F(3,56) = 7.114, p < 0.001",FALSE,FALSE,FALSE,FALSE,0.28
+"11. 2014 - Similarities and differences among Internet gaming","F",3,56,"=",4.874,"<",0.05,0.00441631189054853,"F(3,56) = 4.874,
+p < 0.05",FALSE,FALSE,FALSE,FALSE,0.28
+"11. 2014 - Similarities and differences among Internet gaming","F",2,42,"=",52.752,"<",0.001,3.49426105692654e-12,"F(2,42) = 52.752, p < 0.001",FALSE,FALSE,FALSE,FALSE,0.28
+"11. 2014 - Similarities and differences among Internet gaming","F",2,39,"=",20.587,"<",0.001,7.89051914997581e-07,"F(2,39) = 20.587, p < 0.001",FALSE,FALSE,FALSE,FALSE,0.28
+"11. 2014 - Similarities and differences among Internet gaming","F",3,52,"=",10.565,"<",0.001,1.56250999136929e-05,"F(3,52) = 10.565, p < 0.001",FALSE,FALSE,FALSE,FALSE,0.28
+"11. 2014 - Similarities and differences among Internet gaming","F",3,52,"=",11.523,"<",0.001,6.65412924726183e-06,"F(3,52) = 11.523, p < 0.001",FALSE,FALSE,FALSE,FALSE,0.28
+"11. 2014 - Similarities and differences among Internet gaming","F",1,52,"=",4.452,"=",0.04,0.0396908562091061,"F(1,52) = 4.452, p = 0.040",FALSE,FALSE,FALSE,FALSE,0.28
+"11. 2014 - Similarities and differences among Internet gaming","F",3,52,"=",19.393,"<",0.001,1.43218482503792e-08,"F(3,52) =
+19.393, p < 0.001",FALSE,FALSE,FALSE,FALSE,0.28
+"11. 2014 - Similarities and differences among Internet gaming","F",3,52,"=",10.071,"<",0.001,2.45263538677624e-05,"F(3,52) = 10.071, p < 0.001",FALSE,FALSE,FALSE,FALSE,0.28
+"11. 2014 - Similarities and differences among Internet gaming","F",1,52,"=",6.244,"=",0.016,0.0156589278388959,"F(1,52) =
+6.244, p = 0.016",FALSE,FALSE,FALSE,FALSE,0.28
+"11. 2014 - Similarities and differences among Internet gaming","F",3,55,"=",3.162,"=",0.032,0.0316496961850067,"F(3,55) = 3.162, p = 0.032",FALSE,FALSE,FALSE,FALSE,0.28
+"11. 2014 - Similarities and differences among Internet gaming","F",3,55,"=",3.138,"=",0.033,0.0325510141585159,"F(3,55) =
+3.138, p = 0.033",FALSE,FALSE,FALSE,FALSE,0.28
+"11. 2014 - Similarities and differences among Internet gaming","F",3,55,"=",3.469,"=",0.022,0.0221284744942373,"F(3,55) = 3.469, p = 0.022",FALSE,FALSE,FALSE,FALSE,0.28
+"112. 2017 - Craving behavior intervention in ameliorating coll","F",3,53,"=",2.04,">",0.05,0.119378122720892,"F (3, 53) = 2.04, p > 0.05",FALSE,FALSE,FALSE,FALSE,0.31
+"112. 2017 - Craving behavior intervention in ameliorating coll","F",3,54,"=",9.08,"<",0.001,5.78497753441126e-05,"F (3, 54) = 9.08, p < 0.001",FALSE,FALSE,FALSE,FALSE,0.31
+"112. 2017 - Craving behavior intervention in ameliorating coll","F",3,53,"=",64.76,"<",0.001,9.85616416920321e-18,"F (3, 53) = 64.76, p < 0.001",FALSE,FALSE,FALSE,FALSE,0.31
+"112. 2017 - Craving behavior intervention in ameliorating coll","F",3,53,"=",3.27,"<",0.05,0.0281993307259402,"F (3, 53) = 3.27, p < 0.05",FALSE,FALSE,FALSE,FALSE,0.31
+"112. 2017 - Craving behavior intervention in ameliorating coll","F",3,54,"=",8.67,"<",0.001,8.61257360121056e-05,"F (3, 54) = 8.67, p < 0.001",FALSE,FALSE,FALSE,FALSE,0.31
+"112. 2017 - Craving behavior intervention in ameliorating coll","F",3,53,"=",10.84,"<",0.001,1.16427723325582e-05,"F (3, 53) = 10.84, p < 0.001",FALSE,FALSE,FALSE,FALSE,0.31
+"112. 2017 - Craving behavior intervention in ameliorating coll","F",1,59,"=",6.46,"<",0.05,0.0136803729653934,"F (1, 59) = 6.46, p < 0.05",FALSE,FALSE,FALSE,FALSE,0.31
+"112. 2017 - Craving behavior intervention in ameliorating coll","F",1,59,"=",5.79,"<",0.05,0.0192685882880191,"F (1, 59) =
+5.79, p < 0.05",FALSE,FALSE,FALSE,FALSE,0.31
+"112. 2017 - Craving behavior intervention in ameliorating coll","F",1,57,"=",34.95,"<",0.001,2.00477194921733e-07,"F (1, 57) = 34.95, p < 0.001",FALSE,FALSE,FALSE,FALSE,0.31
+"112. 2017 - Craving behavior intervention in ameliorating coll","F",1,57,"=",31.68,"<",0.001,5.78937044942274e-07,"F (1, 57) = 31.68, p < 0.001",FALSE,FALSE,FALSE,FALSE,0.31
+"112. 2017 - Craving behavior intervention in ameliorating coll","F",1,57,"=",7.81,"<",0.01,0.0070662180835221,"F (1, 57) = 7.81,
+p < 0.01",FALSE,FALSE,FALSE,FALSE,0.31
+"113. 2017_Craving behavior intervention in ameliorating college students’ Internet game","F",3,53,"=",2.04,">",0.05,0.119378122720892,"F (3, 53) = 2.04, p > 0.05",FALSE,FALSE,FALSE,FALSE,0.31
+"113. 2017_Craving behavior intervention in ameliorating college students’ Internet game","F",3,54,"=",9.08,"<",0.001,5.78497753441126e-05,"F (3, 54) = 9.08, p < 0.001",FALSE,FALSE,FALSE,FALSE,0.31
+"113. 2017_Craving behavior intervention in ameliorating college students’ Internet game","F",3,53,"=",64.76,"<",0.001,9.85616416920321e-18,"F (3, 53) = 64.76, p < 0.001",FALSE,FALSE,FALSE,FALSE,0.31
+"113. 2017_Craving behavior intervention in ameliorating college students’ Internet game","F",3,53,"=",3.27,"<",0.05,0.0281993307259402,"F (3, 53) = 3.27, p < 0.05",FALSE,FALSE,FALSE,FALSE,0.31
+"113. 2017_Craving behavior intervention in ameliorating college students’ Internet game","F",3,54,"=",8.67,"<",0.001,8.61257360121056e-05,"F (3, 54) = 8.67, p < 0.001",FALSE,FALSE,FALSE,FALSE,0.31
+"113. 2017_Craving behavior intervention in ameliorating college students’ Internet game","F",3,53,"=",10.84,"<",0.001,1.16427723325582e-05,"F (3, 53) = 10.84, p < 0.001",FALSE,FALSE,FALSE,FALSE,0.31
+"113. 2017_Craving behavior intervention in ameliorating college students’ Internet game","F",1,59,"=",6.46,"<",0.05,0.0136803729653934,"F (1, 59) = 6.46, p < 0.05",FALSE,FALSE,FALSE,FALSE,0.31
+"113. 2017_Craving behavior intervention in ameliorating college students’ Internet game","F",1,59,"=",5.79,"<",0.05,0.0192685882880191,"F (1, 59) =
+5.79, p < 0.05",FALSE,FALSE,FALSE,FALSE,0.31
+"113. 2017_Craving behavior intervention in ameliorating college students’ Internet game","F",1,57,"=",34.95,"<",0.001,2.00477194921733e-07,"F (1, 57) = 34.95, p < 0.001",FALSE,FALSE,FALSE,FALSE,0.31
+"113. 2017_Craving behavior intervention in ameliorating college students’ Internet game","F",1,57,"=",31.68,"<",0.001,5.78937044942274e-07,"F (1, 57) = 31.68, p < 0.001",FALSE,FALSE,FALSE,FALSE,0.31
+"113. 2017_Craving behavior intervention in ameliorating college students’ Internet game","F",1,57,"=",7.81,"<",0.01,0.0070662180835221,"F (1, 57) = 7.81,
+p < 0.01",FALSE,FALSE,FALSE,FALSE,0.31
+"114. 2017 - Delay discounting of video game players Compariso","F",2,100,"=",6.22,"=",0.003,0.00284418704047117,"F(2, 100) = 6.22,
+p = 0.003",FALSE,FALSE,FALSE,FALSE,0.4
+"114. 2017 - Delay discounting of video game players Compariso","F",1,100,"=",12,"=",0.001,0.000784782724515413,"F(1,
+100) = 12.00, p = 0.001",FALSE,FALSE,FALSE,FALSE,0.4
+"114. 2017 - Delay discounting of video game players Compariso","F",2,100,"=",3.32,"=",0.04,0.0401784501055696,"F(2, 100) = 3.32, p = 0.04",FALSE,FALSE,FALSE,FALSE,0.4
+"114. 2017 - Delay discounting of video game players Compariso","F",1,100,"=",6.36,"=",0.01,0.0132505750309909,"F(1, 100) = 6.36, p = 0.01",FALSE,FALSE,FALSE,FALSE,0.4
+"116. 2017_Development and Validation of Videogame Addiction Scale for Children VASC","Chi2",183,NA,"=",535.01,"<",0.001,3.3484700276864e-36," X2(183, N = 380) = 535.01, p < .001",FALSE,FALSE,FALSE,FALSE,0.17
+"119. 2017 - Dysfunctional prefrontal function is associated wi","Z",NA,NA,"=",2.44,"<",0.05,0.0146872619106967,"Z= 2.44, p<0.05",FALSE,FALSE,FALSE,FALSE,0.08
+"124. 2017 - Free-to-play About addicted whales, at risk dolph","Chi2",2,NA,"=",1.32,"=",0.523,0.516851334491699," (2(2)=1.32, p=.523",TRUE,FALSE,FALSE,FALSE,0.03
+"124. 2017 - Free-to-play About addicted whales, at risk dolph","Chi2",6,NA,"=",114.13,"<",0.001,2.77915678438085e-22," (2(6)=114.13, p<.001",FALSE,FALSE,FALSE,FALSE,0.03
+"128. 2017 - Impaired executive control and reward circuit in I","t",NA,37,"=",1.24,">",0.05,0.222782120131252,"t (37)= 1.24, p>0.05",FALSE,FALSE,FALSE,FALSE,0.17
+"128. 2017 - Impaired executive control and reward circuit in I","t",NA,37,"=",-9.08,"<",0.001,5.95069167662717e-11,"t (37)= -9.08, p<0.001",FALSE,FALSE,FALSE,FALSE,0.17
+"130. 2017 - Individual differences in implicit learning abilit","F",1,38,"=",1.949,"=",0.171,0.170797863484031,"F(1, 38) = 1.949, p = 0.171",FALSE,FALSE,FALSE,TRUE,0.47
+"130. 2017 - Individual differences in implicit learning abilit","F",1,37,"=",0.594,"=",0.446,0.445770277362035,"F(1, 37) = 0.594, p = 0.446",FALSE,FALSE,FALSE,TRUE,0.47
+"130. 2017 - Individual differences in implicit learning abilit","F",1,76,"=",2.102,"=",0.151,0.1512209207364,"F(1,76) = 2.102, p = 0.151",FALSE,FALSE,FALSE,TRUE,0.47
+"130. 2017 - Individual differences in implicit learning abilit","F",1,43,"=",4.298,"=",0.044,0.0441832868509419,"F(1,43) = 4.298,
+p = 0.044",FALSE,FALSE,FALSE,TRUE,0.47
+"130. 2017 - Individual differences in implicit learning abilit","F",1,27,"=",5.377,"=",0.028,0.0282141959694638,"F(1,27) = 5.377, p = 0.028",FALSE,FALSE,FALSE,TRUE,0.47
+"130. 2017 - Individual differences in implicit learning abilit","F",1,15,"=",0.295,"=",0.595,0.595013868125298,"F(1,15) = 0.295,
+p = 0.595",FALSE,FALSE,FALSE,TRUE,0.47
+"130. 2017 - Individual differences in implicit learning abilit","F",1,32,"=",2.365,"=",0.134,0.133914430387618,"F(1,32) = 2.365, p = 0.134",FALSE,FALSE,FALSE,TRUE,0.47
+"130. 2017 - Individual differences in implicit learning abilit","F",1,60,"=",0.155,"=",0.695,0.695197893592818,"F(1,60) = 0.155,
+p = 0.695",FALSE,FALSE,FALSE,TRUE,0.47
+"130. 2017 - Individual differences in implicit learning abilit","F",1,93,"=",0.265,"=",0.608,0.607927023675175,"F(1,93) = .265, p = 0.608",FALSE,FALSE,FALSE,TRUE,0.47
+"133. 2017 - Internet Gaming Disorder explains unique variance ","F",4,399,"=",205.98,"<",0.001,1.22979083688978e-95,"F (4, 399) = 205.98, p < .001",FALSE,FALSE,FALSE,TRUE,0.6
+"133. 2017 - Internet Gaming Disorder explains unique variance ","F",1,398,"=",8.95,"=",0.003,0.00294737774477029,"F (1,
+398) = 8.95, p = .003",FALSE,FALSE,FALSE,TRUE,0.6
+"133. 2017 - Internet Gaming Disorder explains unique variance ","F",5,398,"=",169.86,"<",0.001,2.28244505796662e-96,"F (5, 398) = 169.86, p < .001",FALSE,FALSE,FALSE,TRUE,0.6
+"133. 2017 - Internet Gaming Disorder explains unique variance ","F",4,399,"=",65.05,"<",0.001,2.52275394609288e-42,"F (4, 399) = 65.05, p < .001",FALSE,FALSE,FALSE,TRUE,0.6
+"133. 2017 - Internet Gaming Disorder explains unique variance ","F",1,398,"=",22.54,"<",0.001,2.87613979352689e-06,"F (1, 398) = 22.54, p < .001",FALSE,FALSE,FALSE,TRUE,0.6
+"133. 2017 - Internet Gaming Disorder explains unique variance ","F",5,398,"=",59.35,"<",0.001,4.28326476444302e-46,"F (5, 398) = 59.35, p < .001",FALSE,FALSE,FALSE,TRUE,0.6
+"136. 2017 - Internet gaming disorder Investigating the clinic","Z",NA,NA,"=",-2.08,"=",0.038,0.0375255328698755,"Z= -2.08, p= 0.038",FALSE,FALSE,FALSE,FALSE,1
+"136. 2017 - Internet gaming disorder Investigating the clinic","Z",NA,NA,"=",-2.71,"=",0.006,0.00672832081333839,"Z= -2.71, p= 0.006",TRUE,FALSE,FALSE,FALSE,1
+"136. 2017 - Internet gaming disorder Investigating the clinic","Z",NA,NA,"=",0.12,"=",0.904,0.904483147958832,"Z= 0.12, p= 0.904",FALSE,FALSE,FALSE,FALSE,1
+"143. 2017 - Measures of behavioral function predict duration o","F",4,445,"=",50.787,"<",0.001,3.25272919824062e-35,"F (4, 445) = 50.787, p < .001",FALSE,FALSE,FALSE,FALSE,0.2
+"145. 2017 - Mindfulness-oriented recovery enhancement for inte","F",2,35.67,"=",50.55,"=",0,3.88981727028746e-11,"F(2, 35.67) = 50.55, p = .000",TRUE,FALSE,FALSE,FALSE,0.64
+"145. 2017 - Mindfulness-oriented recovery enhancement for inte","F",2,35.67,"=",5.38,"=",0.005,0.00907760815194283,"F(2, 35.67) = 5.38, p = .005",TRUE,FALSE,TRUE,FALSE,0.64
+"145. 2017 - Mindfulness-oriented recovery enhancement for inte","F",2,35.67,"=",3.15,"=",0.043,0.0549805954677584,"F(2, 35.67) = 3.15, p = .043",TRUE,TRUE,FALSE,FALSE,0.64
+"145. 2017 - Mindfulness-oriented recovery enhancement for inte","F",2,35.67,"=",3.01,"=",0.049,0.0619522530868176,"F(2, 35.67) = 3.01, p = .049",TRUE,TRUE,FALSE,FALSE,0.64
+"145. 2017 - Mindfulness-oriented recovery enhancement for inte","F",2,35.67,"=",23.49,"=",0,3.09955669277301e-07,"F(2, 35.67)
+= 23.49, p = .000",TRUE,FALSE,FALSE,FALSE,0.64
+"145. 2017 - Mindfulness-oriented recovery enhancement for inte","F",2,35.67,"=",26.39,"=",0,9.24634359384835e-08,"F(2, 35.67) = 26.39, p = .000",TRUE,FALSE,FALSE,FALSE,0.64
+"145. 2017 - Mindfulness-oriented recovery enhancement for inte","F",2,35.67,"=",15.83,"=",0,1.20012177599492e-05,"F(2, 35.67) = 15.83, p = .000",TRUE,FALSE,FALSE,FALSE,0.64
+"145. 2017 - Mindfulness-oriented recovery enhancement for inte","F",2,35.67,"=",15.27,"=",0,1.61865303232626e-05,"F(2, 35.67) = 15.27, p = .000",TRUE,FALSE,FALSE,FALSE,0.64
+"145. 2017 - Mindfulness-oriented recovery enhancement for inte","F",2,35.67,"=",6.78,"=",0.001,0.00319452899280725,"F(2, 35.67) = 6.78, p = .001",TRUE,FALSE,TRUE,FALSE,0.64
+"145. 2017 - Mindfulness-oriented recovery enhancement for inte","F",2,35.67,"=",12.06,"=",0,9.98057826924757e-05,"F(2, 35.67) = 12.06, p = .000",TRUE,FALSE,FALSE,FALSE,0.64
+"145. 2017 - Mindfulness-oriented recovery enhancement for inte","F",2,35.67,"=",3.06,"=",0.047,0.0593608643021547,"F(2,
+35.67) = 3.06, p = .047",TRUE,TRUE,FALSE,FALSE,0.64
+"145. 2017 - Mindfulness-oriented recovery enhancement for inte","F",2,26.01,"=",3.08,"=",0.046,0.0630230233353388,"F(2, 26.01) = 3.08, p = .046",TRUE,TRUE,FALSE,FALSE,0.64
+"145. 2017 - Mindfulness-oriented recovery enhancement for inte","F",2,26.01,"=",11.86,"=",0,0.00021846266033981,"F(2, 26.01) = 11.86, p = .000",TRUE,FALSE,FALSE,FALSE,0.64
+"145. 2017 - Mindfulness-oriented recovery enhancement for inte","F",2,26.01,"=",2.4,"=",0.09,0.110526073996524,"F(2, 26.01) = 2.40, p = .09",TRUE,FALSE,FALSE,FALSE,0.64
+"146. 2017 - Motives for online gaming questionnaire Its psych","Chi2",75,NA,"=",8478.58,"<",0.001,0," 2(75) = 8,478.58,
+p < .001",FALSE,FALSE,FALSE,FALSE,0.17
+"146. 2017 - Motives for online gaming questionnaire Its psych","Chi2",51,NA,"=",140.88,"<",0.001,2.35114761439659e-10," 2(51) = 140.88,
+p < .001",FALSE,FALSE,FALSE,FALSE,0.17
+"149. 2017_Neurobiological correlates of avatar identification processing and emotional","Z",NA,NA,"=",-2.73,"=",0.006,0.00633343255471559,"Z= -2.73, p= .006",FALSE,FALSE,FALSE,FALSE,0.32
+"149. 2017_Neurobiological correlates of avatar identification processing and emotional","Z",NA,NA,"=",-3.05,"=",0.002,0.0022884136620454,"Z= -3.05, p= .002",FALSE,FALSE,FALSE,FALSE,0.32
+"149. 2017_Neurobiological correlates of avatar identification processing and emotional","Z",NA,NA,"=",-3.47,"=",0.001,0.000520458364854933,"Z= -3.47,
+p= .001",FALSE,FALSE,FALSE,FALSE,0.32
+"149. 2017_Neurobiological correlates of avatar identification processing and emotional","Z",NA,NA,"=",-3.01,"=",0.003,0.00261247689753894,"Z= -3.01, p= .003",FALSE,FALSE,FALSE,FALSE,0.32
+"149. 2017_Neurobiological correlates of avatar identification processing and emotional","Z",NA,NA,"=",-3.17,"=",0.002,0.00152438937613447,"Z= -3.17, p= .002",FALSE,FALSE,FALSE,FALSE,0.32
+"149. 2017_Neurobiological correlates of avatar identification processing and emotional","Z",NA,NA,"=",-1.91,"=",0.056,0.056133213319545,"Z= -1.91, p= .056",FALSE,FALSE,FALSE,FALSE,0.32
+"149. 2017_Neurobiological correlates of avatar identification processing and emotional","Z",NA,NA,"=",-2.731,"=",0.006,0.00631424716436166,"Z= -2.731, p= .006",FALSE,FALSE,FALSE,FALSE,0.32
+"149. 2017_Neurobiological correlates of avatar identification processing and emotional","Z",NA,NA,"=",-2.704,"=",0.007,0.00685102891617228,"
+Z= -2.704, p= .007",FALSE,FALSE,FALSE,FALSE,0.32
+"149. 2017_Neurobiological correlates of avatar identification processing and emotional","Z",NA,NA,"=",-2.677,"=",0.007,0.00742846349695758,"Z= -2.677, p= .007",FALSE,FALSE,FALSE,FALSE,0.32
+"149. 2017_Neurobiological correlates of avatar identification processing and emotional","Z",NA,NA,"=",-3.162,"=",0.002,0.00156689564342153,"
+Z= -3.162, p= .002",FALSE,FALSE,FALSE,FALSE,0.32
+"149. 2017_Neurobiological correlates of avatar identification processing and emotional","Z",NA,NA,"=",-2.132,"=",0.033,0.0330068465579467,"Z= -2.132, p= .033",FALSE,FALSE,FALSE,FALSE,0.32
+"149. 2017_Neurobiological correlates of avatar identification processing and emotional","Z",NA,NA,"=",-2.411,"=",0.016,0.015908848441229,"Z= -2.411, p= .016",FALSE,FALSE,FALSE,FALSE,0.32
+"149. 2017_Neurobiological correlates of avatar identification processing and emotional","Z",NA,NA,"=",-2.341,"=",0.019,0.0192321671120577,"Z= -2.341, p= .019",FALSE,FALSE,FALSE,FALSE,0.32
+"149. 2017_Neurobiological correlates of avatar identification processing and emotional","Z",NA,NA,"=",-2.068,"=",0.039,0.0386400230978852,"Z= -2.068, p= .039",FALSE,FALSE,FALSE,FALSE,0.32
+"16. 2015 - Addiction and Engagement An Explorative Study Tow","t",NA,674,"=",-0.762,"=",0.447,0.446326563243741,"t(674) = -0.762, p = 0.447",FALSE,FALSE,FALSE,FALSE,0.25
+"16. 2015 - Addiction and Engagement An Explorative Study Tow","t",NA,125,"=",-0.361,"=",0.719,0.718708835193602,"t(125) = -0.361, p = 0.719",FALSE,FALSE,FALSE,FALSE,0.25
+"163. 2017_School-related risk factors associated with Internet gaming disorder and","F",2,120,"=",7.512,"<",0.01,0.000843755448755674,"F(2,120) = 7.512, P < 0.01",FALSE,FALSE,FALSE,FALSE,0.06
+"163. 2017_School-related risk factors associated with Internet gaming disorder and","F",2,120,"=",11.314,"<",0.001,3.15200734859172e-05,"F(2,120) = 11.314, P < 0.001",FALSE,FALSE,FALSE,FALSE,0.06
+"163. 2017_School-related risk factors associated with Internet gaming disorder and","F",1,99,"=",8.28,"<",0.05,0.00491045275622999,"F(1,99)
+= 8.28, p < 0.05",FALSE,FALSE,FALSE,FALSE,0.06
+"163. 2017_School-related risk factors associated with Internet gaming disorder and","F",3,249,"=",5.31,"<",0.0019,0.00145467584096262,"F(3, 249) = 5.31, p < 0.0019",FALSE,FALSE,FALSE,FALSE,0.06
+"163. 2017_School-related risk factors associated with Internet gaming disorder and","F",3,245,"=",7.55,">",0.001,7.50523491842333e-05,"F(3, 245) =
+7.55, p > 0.001",TRUE,FALSE,FALSE,FALSE,0.06
+"164. 2017_Social media and internet gaming disorder","F",2,120,"=",7.512,"<",0.01,0.000843755448755674,"F(2,120) = 7.512, P < 0.01",FALSE,FALSE,FALSE,FALSE,0.06
+"164. 2017_Social media and internet gaming disorder","F",2,120,"=",11.314,"<",0.001,3.15200734859172e-05,"F(2,120) = 11.314, P < 0.001",FALSE,FALSE,FALSE,FALSE,0.06
+"164. 2017_Social media and internet gaming disorder","F",1,99,"=",8.28,"<",0.05,0.00491045275622999,"F(1,99)
+= 8.28, p < 0.05",FALSE,FALSE,FALSE,FALSE,0.06
+"164. 2017_Social media and internet gaming disorder","F",3,249,"=",5.31,"<",0.0019,0.00145467584096262,"F(3, 249) = 5.31, p < 0.0019",FALSE,FALSE,FALSE,FALSE,0.06
+"164. 2017_Social media and internet gaming disorder","F",3,245,"=",7.55,">",0.001,7.50523491842333e-05,"F(3, 245) =
+7.55, p > 0.001",TRUE,FALSE,FALSE,FALSE,0.06
+"165. 2017 - Stress vulnerability in male youth with Internet G","Chi2",7,NA,"=",25.75,"<",0.001,0.000558175876883493," (2(7) = 25.75, p < .001",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","Chi2",7,NA,"=",17.25,"=",0.016,0.0158533427066806," (2(7) =17.25, p=.016",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","Chi2",1,NA,"=",5.49,"=",0.019,0.0191255430387361," (2(1)=5.49, p=.019",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","Chi2",1,NA,"=",5.6,"=",0.018,0.0179604775260788," (2(1)= 5.60, p=.018",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","Chi2",1,NA,"=",5.55,"=",0.019,0.0184806869610068,"
+(2(1)=5.55, p=.019",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","Chi2",1,NA,"=",5.2,"=",0.022,0.0225868881641797," (2(1)=5.20,p=.022",TRUE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","t",NA,47,"=",-4.128,"<",0.001,0.0001485620138067,"t(47)= -4.128, p<.001",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","t",NA,47,"=",19.049,"<",1e-04,9.6859734819472e-24,"t(47)= 19.049, p<.0001",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","t",NA,47,"=",8.665,"<",1e-04,2.64069326484029e-11,"t(47)= 8.665,
+p<.0001",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","t",NA,47,"=",7.204,"<",1e-04,4.01174612685653e-09,"t(47)= 7.204, p<.0001",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","t",NA,47,"=",8.44,"<",1e-04,5.66013221061732e-11,"t(47)= 8.440, p<.0001",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","t",NA,47,"=",4.873,"<",1e-04,1.2906852721227e-05,"t(47)= 4.873, p<.0001",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","t",NA,47,"=",2.71,"=",0.009,0.00936147971839164,"t(47)= 2.710, p= .009",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","t",NA,47,"=",2.71,"=",0.009,0.00936147971839164,"t(47)= 2.710, p= .009",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","t",NA,47,"=",3.137,"=",0.003,0.00294383577014937,"t(47)= 3.137,
+p= .003",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","t",NA,47,"=",1.473,"=",0.147,0.147416958341421,"t(47)= 1.473, p= .147",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","t",NA,34,"=",-1.013,"=",0.318,0.318215153808717,"t(34)= -1.013, p= .318",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","t",NA,47,"=",1.683,"=",0.099,0.0990074530585571,"t(47)= 1.683, p= .099",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","t",NA,47,"=",0.094,"=",0.926,0.925508749836752,"t(47)= 0.094, p= .926",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","t",NA,47,"=",0.118,"=",0.907,0.906570519048883,"t(47)= 0.118, p= .907",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","Chi2",7,NA,"=",174.35,"<",1e-04,3.03578575612585e-34," (2(7)=174.35, p<.0001",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","Chi2",7,NA,"=",126.5,"<",1e-04,3.38204101989266e-24,"(2(7)=126.50, p<.0001",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","Chi2",7,NA,"=",123.7,"<",1e-04,1.29801727167372e-23," (2(7)=123.70, p<.0001",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","Chi2",1,NA,"=",5.55,"=",0.019,0.0184806869610068," (2(1)=5.55, p=.019",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","Chi2",1,NA,"=",5.6,"=",0.018,0.0179604775260788," (2(1)=5.60, p=.018",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","Chi2",1,NA,"=",0.01,"=",0.935,0.920344325445942," (2(1)=0.01, p=.935",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","Chi2",7,NA,"=",17.25,"=",0.016,0.0158533427066806," (2(7)=17.25, p=.016",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","Chi2",7,NA,"=",10.38,"=",0.168,0.168042284814458," (2(7)=10.38, p=.168",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","Chi2",7,NA,"=",1.91,"=",0.965,0.964653175105227," (2(7)=1.91, p=.965",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","t",NA,47,"=",0.018,"=",0.986,0.985715050366917,"t(47)= 0.018, p= .986",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","t",NA,44,"=",1.773,"=",0.083,0.0831512041073255,"t(44)= 1.773,
+p= .083",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","Chi2",7,NA,"=",144.04,"<",1e-04,7.23257862232649e-28," (2(7)=144.04, p<.0001",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","Chi2",6,NA,"=",258.02,"<",1e-04,7.91804751870541e-53," (2(6)=258.02, p<.0001",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","Chi2",1,NA,"=",5.49,"=",0.019,0.0191255430387361," (2(1)=5.49, p=.019",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","Chi2",1,NA,"=",0.88,"=",0.348,0.348201679413126,"
+(2(1)=0.88, p=.348",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","Chi2",7,NA,"=",25.75,"<",0.001,0.000558175876883493," (2(7)=25.75,
+p<.001",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","Chi2",6,NA,"=",1.06,"=",0.983,0.983235171599208," (2(6)=1.06, p=.983",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","Chi2",1,NA,"=",5.2,"=",0.022,0.0225868881641797," (2(1)=5.20, p=.022",TRUE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","r",NA,46,"=",0.367,"=",0.012,0.0102923370664965,"r(46)= .367, p= .012",TRUE,FALSE,TRUE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","r",NA,46,"=",-0.292,"=",0.049,0.0440270123090416,"r(46)= -.292, p= .049",TRUE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","r",NA,46,"=",0.63,"<",0.001,1.60316535666848e-06,"r(46)= .630, p<.001",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","r",NA,46,"=",0.407,"=",0.005,0.00409328368207142,"r(46)= .407, p= .005",TRUE,FALSE,TRUE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","r",NA,46,"=",0.566,"<",0.001,2.75653995326928e-05,"r(46)= .566, p<.001",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","r",NA,46,"=",0.352,"=",0.016,0.0141461372884869,"r(46)= .352, p= .016",TRUE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","r",NA,46,"=",0.439,"=",0.002,0.00179967068357912,"r(46)
+= .439, p = .002",FALSE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","r",NA,46,"=",0.353,"=",0.016,0.0138555621860792,"r(46)= .353, p= .016",TRUE,FALSE,FALSE,FALSE,0.9
+"165. 2017 - Stress vulnerability in male youth with Internet G","r",NA,46,"=",0.352,"=",0.018,0.0141461372884869,"r(46)= .352, p= .018",TRUE,FALSE,FALSE,FALSE,0.9
+"167. 2017 - The adaptive decision-making, risky decision, and ","F",1,172,"=",2.005,"=",0.16,0.158589619279194,"F(1,172) = 2.005, P = 0.16",FALSE,FALSE,FALSE,FALSE,0.29
+"167. 2017 - The adaptive decision-making, risky decision, and ","F",2,172,"=",1129,"<",0.001,1.23967232119293e-99,"F(2,172) = 1129, P < 0.001",FALSE,FALSE,FALSE,FALSE,0.29
+"167. 2017 - The adaptive decision-making, risky decision, and ","F",2,172,"=",13.57,"<",0.001,3.37143812738654e-06,"F(2,172) = 13.57, P < 0.001",FALSE,FALSE,FALSE,FALSE,0.29
+"167. 2017 - The adaptive decision-making, risky decision, and ","F",1,172,"=",152.38,"<",0.001,1.77676714237989e-25,"F(1,172) = 152.38, P < 0.001",FALSE,FALSE,FALSE,FALSE,0.29
+"17. 2015_Decision-making for risky gains and losses among college students with Internet","t",NA,100,"=",27.14,"<",0.001,6.34685313232765e-48,"t (100) = 27.14, P < .001",FALSE,FALSE,FALSE,FALSE,0.52
+"17. 2015_Decision-making for risky gains and losses among college students with Internet","t",NA,80,"=",15.41,"<",0.001,1.16389641187459e-25,"t (80) = 15.41, P < .001",FALSE,FALSE,FALSE,FALSE,0.52
+"17. 2015_Decision-making for risky gains and losses among college students with Internet","t",NA,29,"=",1.27,"=",0.216,0.214180649547844,"t (29) = 1.27, P = .216",FALSE,FALSE,FALSE,FALSE,0.52
+"17. 2015_Decision-making for risky gains and losses among college students with Internet","F",1,100,"=",5.67,"=",0.019,0.0191506652486106,"F (1, 100) = 5.67, P = .019",FALSE,FALSE,FALSE,FALSE,0.52
+"17. 2015_Decision-making for risky gains and losses among college students with Internet","F",2,200,"=",289.64,"<",0.001,8.58314664558703e-60,"F (2, 200) = 289.64, P < .001",FALSE,FALSE,FALSE,FALSE,0.52
+"17. 2015_Decision-making for risky gains and losses among college students with Internet","F",2,200,"=",1.43,"=",0.242,0.241744972780625,"F (2, 200) = 1.43, P = .242",FALSE,FALSE,FALSE,FALSE,0.52
+"17. 2015_Decision-making for risky gains and losses among college students with Internet","F",2,200,"=",6.08,"=",0.006,0.0027330582875588,"F (2, 200) = 6.08, P = .006",TRUE,FALSE,FALSE,FALSE,0.52
+"17. 2015_Decision-making for risky gains and losses among college students with Internet","F",2,99,"=",7.54,"=",0.001,0.000895511698135659,"F (2, 99) = 7.54,
+P = .001",FALSE,FALSE,FALSE,FALSE,0.52
+"17. 2015_Decision-making for risky gains and losses among college students with Internet","F",2,200,"=",7.7,"=",0.001,0.000600384774517257,"F (2, 200) = 7.70, P = .001",FALSE,FALSE,FALSE,FALSE,0.52
+"17. 2015_Decision-making for risky gains and losses among college students with Internet","F",1,100,"=",7.57,"=",0.007,0.00704684757454676,"F (1, 100) = 7.57, P = .007",FALSE,FALSE,FALSE,FALSE,0.52
+"17. 2015_Decision-making for risky gains and losses among college students with Internet","F",2,200,"=",6.9,"=",0.002,0.00126540480468316,"F (2, 200) = 6.90, P = .002",TRUE,FALSE,TRUE,FALSE,0.52
+"17. 2015_Decision-making for risky gains and losses among college students with Internet","F",1,100,"=",15.11,"<",0.001,0.000182573236206668,"F (1, 100) = 15.11, P < .001",FALSE,FALSE,FALSE,FALSE,0.52
+"177. 2017_The relationship of online gaming addiction with motivations to play and craving","F",1,190,"=",26.65,"<",0.001,6.1189644254898e-07,"F(1,190) = 26.65, p <
+.001",FALSE,FALSE,FALSE,FALSE,0.08
+"180. 2017 - Unconscious processing of facial expressions in in","F",1,30,"=",4.86,"<",0.05,0.0352963209804592,"F(1,30) = 4.86, p < 0.05",FALSE,FALSE,FALSE,FALSE,0.31
+"180. 2017 - Unconscious processing of facial expressions in in","F",1,30,"=",5.09,"<",0.05,0.0315112671511031,"F(1,30) = 5.09, p < 0.05",FALSE,FALSE,FALSE,FALSE,0.31
+"180. 2017 - Unconscious processing of facial expressions in in","F",1,30,"=",6.63,"<",0.05,0.0152031214480283,"F(1,30) = 6.63, p < 0.05",FALSE,FALSE,FALSE,FALSE,0.31
+"180. 2017 - Unconscious processing of facial expressions in in","F",1,30,"=",0.02,"=",0.88,0.888482490379025,"F(1,30) = 0.02, p = 0.88",FALSE,FALSE,FALSE,FALSE,0.31
+"180. 2017 - Unconscious processing of facial expressions in in","F",1,30,"=",0.02,"=",0.88,0.888482490379025,"F(1,30) = 0.02, p = 0.88",FALSE,FALSE,FALSE,FALSE,0.31
+"187. 2017 - Video Game Use as Risk Exposure, Protective Incapa","Z",NA,NA,"=",2.529,"=",0.011,0.0114388027198568,"Z = 2.529, p = .011",FALSE,FALSE,FALSE,FALSE,0.71
+"187. 2017 - Video Game Use as Risk Exposure, Protective Incapa","Z",NA,NA,"=",3.08,"=",0.002,0.00207000594960568,"Z = 3.080, p = .002",FALSE,FALSE,FALSE,FALSE,0.71
+"187. 2017 - Video Game Use as Risk Exposure, Protective Incapa","Z",NA,NA,"=",5.406,"<",0.001,6.44477961052522e-08,"Z = 5.406, p < .001",FALSE,FALSE,FALSE,FALSE,0.71
+"187. 2017 - Video Game Use as Risk Exposure, Protective Incapa","Z",NA,NA,"=",3.615,"<",0.001,0.000300347621677373,"Z = 3.615, p < .001",FALSE,FALSE,FALSE,FALSE,0.71
+"187. 2017 - Video Game Use as Risk Exposure, Protective Incapa","Z",NA,NA,"=",3.107,"=",0.002,0.00188996398693441,"Z = 3.107, p = .002",FALSE,FALSE,FALSE,FALSE,0.71
+"187. 2017 - Video Game Use as Risk Exposure, Protective Incapa","Z",NA,NA,"=",3.016,"=",0.003,0.00256133259940424,"Z = 3.016, p = .003",FALSE,FALSE,FALSE,FALSE,0.71
+"187. 2017 - Video Game Use as Risk Exposure, Protective Incapa","Z",NA,NA,"=",3.541,"<",0.001,0.000398613578277862,"
+Z = 3.541, p < .001",FALSE,FALSE,FALSE,FALSE,0.71
+"187. 2017 - Video Game Use as Risk Exposure, Protective Incapa","Z",NA,NA,"=",5.991,"<",0.001,2.08554640010208e-09,"
+Z = 5.991, p < .001",FALSE,FALSE,FALSE,FALSE,0.71
+"187. 2017 - Video Game Use as Risk Exposure, Protective Incapa","Z",NA,NA,"=",7.158,"<",0.001,8.18625551694511e-13,"Z = 7.158,
+p < .001",FALSE,FALSE,FALSE,FALSE,0.71
+"187. 2017 - Video Game Use as Risk Exposure, Protective Incapa","Z",NA,NA,"=",6.606,"<",0.001,3.94842887683004e-11,"Z = 6.606, p < .001",FALSE,FALSE,FALSE,FALSE,0.71
+"187. 2017 - Video Game Use as Risk Exposure, Protective Incapa","Z",NA,NA,"=",5.293,"<",0.001,1.20325920394196e-07,"Z = 5.293, p < .001",FALSE,FALSE,FALSE,FALSE,0.71
+"187. 2017 - Video Game Use as Risk Exposure, Protective Incapa","Z",NA,NA,"=",4.469,"<",0.001,7.85861307208853e-06,"Z = 4.469,
+p < .001",FALSE,FALSE,FALSE,FALSE,0.71
+"187. 2017 - Video Game Use as Risk Exposure, Protective Incapa","Z",NA,NA,"=",2.946,"=",0.003,0.0032191240016524,"Z = 2.946, p = .003",FALSE,FALSE,FALSE,FALSE,0.71
+"187. 2017 - Video Game Use as Risk Exposure, Protective Incapa","Z",NA,NA,"=",2.737,"=",0.006,0.00620022930380621,"Z = 2.737, p = .006",FALSE,FALSE,FALSE,FALSE,0.71
+"187. 2017 - Video Game Use as Risk Exposure, Protective Incapa","Z",NA,NA,"=",2.99,"=",0.003,0.0027897744709845,"
+Z = 2.990, p = .003",FALSE,FALSE,FALSE,FALSE,0.71
+"187. 2017 - Video Game Use as Risk Exposure, Protective Incapa","Z",NA,NA,"=",2.957,"=",0.003,0.00310648117894414,"Z = 2.957, p = .003",FALSE,FALSE,FALSE,FALSE,0.71
+"187. 2017 - Video Game Use as Risk Exposure, Protective Incapa","Z",NA,NA,"=",2.616,"=",0.009,0.00889665575871662,"
+Z = 2.616, p = .009",FALSE,FALSE,FALSE,FALSE,0.71
+"187. 2017 - Video Game Use as Risk Exposure, Protective Incapa","Z",NA,NA,"=",3.67,"<",0.001,0.000242550468570716,"Z = 3.670, p < .001",FALSE,FALSE,FALSE,FALSE,0.71
+"187. 2017 - Video Game Use as Risk Exposure, Protective Incapa","Z",NA,NA,"=",18.746,"<",0.001,2.08711308481159e-78,"Z = 18.746, p < .001",FALSE,FALSE,FALSE,FALSE,0.71
+"187. 2017 - Video Game Use as Risk Exposure, Protective Incapa","Z",NA,NA,"=",3.49,"<",0.001,0.000483020547135672,"Z = 3.490, p < .001",FALSE,FALSE,FALSE,FALSE,0.71
+"187. 2017 - Video Game Use as Risk Exposure, Protective Incapa","Z",NA,NA,"=",13.259,"<",0.001,4.00196608288695e-40,"Z = 13.259,
+p < .001",FALSE,FALSE,FALSE,FALSE,0.71
+"187. 2017 - Video Game Use as Risk Exposure, Protective Incapa","Z",NA,NA,"=",7.59,"<",0.001,3.19905488561063e-14,"
+Z = 7.590, p < .001",FALSE,FALSE,FALSE,FALSE,0.71
+"187. 2017 - Video Game Use as Risk Exposure, Protective Incapa","Z",NA,NA,"=",17.576,"<",0.001,3.76198366628142e-69,"Z = 17.576,
+p < .001",FALSE,FALSE,FALSE,FALSE,0.71
+"187. 2017 - Video Game Use as Risk Exposure, Protective Incapa","Z",NA,NA,"=",2.367,"=",0.018,0.0179329328119269,"Z = 2.367, p = .018",FALSE,FALSE,FALSE,FALSE,0.71
+"187. 2017 - Video Game Use as Risk Exposure, Protective Incapa","Z",NA,NA,"=",5.089,"<",0.001,3.59956613403394e-07,"
+Z = 5.089, p < .001",FALSE,FALSE,FALSE,FALSE,0.71
+"187. 2017 - Video Game Use as Risk Exposure, Protective Incapa","Z",NA,NA,"=",23.856,"<",0.001,8.77386245191418e-126,"Z = 23.856, p < .001",FALSE,FALSE,FALSE,FALSE,0.71
+"187. 2017 - Video Game Use as Risk Exposure, Protective Incapa","Z",NA,NA,"=",5.068,"<",0.001,4.02017405553531e-07,"
+Z = 5.068, p < .001",FALSE,FALSE,FALSE,FALSE,0.71
+"187. 2017 - Video Game Use as Risk Exposure, Protective Incapa","Z",NA,NA,"=",3.371,"<",0.001,0.000748958578050255,"Z = 3.371, p < .001",FALSE,FALSE,FALSE,FALSE,0.71
+"187. 2017 - Video Game Use as Risk Exposure, Protective Incapa","Z",NA,NA,"=",3.576,"<",0.001,0.000348891649984283,"Z = 3.576, p < .001",FALSE,FALSE,FALSE,FALSE,0.71
+"187. 2017 - Video Game Use as Risk Exposure, Protective Incapa","Z",NA,NA,"=",3.466,"<",0.001,0.000528263279662436,"Z = 3.466, p < .001",FALSE,FALSE,FALSE,FALSE,0.71
