@@ -74,6 +74,9 @@ rho <- 0.5
 # Correct for indirect selection bias. If FALSE, only direct uni/bivariate selection will be accounted for.
 indirectSel <- FALSE
 
+# Should the plots be displayed? If FALSE, plots will only be stored in respective list objects
+displayPlots <- FALSE
+
 # Sourcing and reading data -----------------------------------------------------------------
 #+ include = FALSE
 source("functions.R")
@@ -172,7 +175,6 @@ for(i in 1:length(corVect)){
 (rmaTable <- lapply(rmaResults, function(x){maResultsTable(x, bias = biasOn)}) %$% as.data.frame(do.call(rbind, .)))
 
 # Meta-analysis plots (forest, funnel, p-curve plots)
-displayPlots <- FALSE
 forestPlots <- funnelPlots <- pcurvePlots <- list(NA)
 for(i in 1:length(corVect)){
   xlab <- eval(substitute(corVect[i]))
@@ -231,20 +233,17 @@ for(i in 1:length(corVectT)){
 (rmaTableT <- lapply(rmaResultsT, function(x){maResultsTable(x, bias = biasOn)}) %$% as.data.frame(do.call(rbind, .)))
 
 # Meta-analysis plots for aggregated correlate types (forest, funnel, p-curve plots)
-displayPlots <- FALSE
-forestPlotsT <- funnelPlotsT <- pcurvePlotsT <- list(NA)
+forestPlotsT <- pcurvePlotsT <- list(NA)
 for(i in 1:length(corVectT)){
   xlab <- eval(substitute(corVectT[i]))
   forest(rmaObjectsT[[i]], order = order(rmaObjectsT[[i]]$vi.f, decreasing = T), addpred = T, header="Paper/Study/Effect", xlab = xlab, mlab="", col="gray40")
   forestPlotsT[[i]] <- recordPlot()
-  funnel(rmaObjectsT[[i]], level = c(90, 95, 99), shade = c("white", "gray", "darkgray"), refline = 0, pch = 20, yaxis = "sei", digits = c(1, 2), xlab = xlab)
-  funnelPlotsT[[i]] <- recordPlot()
   tryCatch(quiet(pcurveMod(metaResultsPcurveT[[i]], effect.estimation = FALSE, plot = TRUE)), error = function(e) NULL)
   if(!is.null(metaResultsPcurveT[[i]])){title(xlab, cex.main = 1)} else {next}
   pcurvePlotsT[[i]] <- recordPlot()
   if(displayPlots == FALSE) dev.off()
 }
-names(forestPlotsT) <- names(funnelPlotsT) <- names(pcurvePlotsT) <- corVectT
+names(forestPlotsT) <- names(pcurvePlotsT) <- corVectT
 
 # Sensitivity analyses ----------------------------------------------------
 
