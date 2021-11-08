@@ -1,25 +1,6 @@
-# Vymazat posledny stlpec a spodne riadky
-# odstranit vsetky "~?" a ";" a "dissertation"
-# opravit 2 negative chiSq, potom odstranit abs(chiSq)
-# 62/1/10 chyba meanIGD alebo df1 pre F
-# 394/2/1 a 394/3/1 df2 zapisane ako df1
-# Remove 999
-# 221, 222, rxxV2reference 1.98
-
-# check rma fisher z conversion
-# 
-
+# Please load the packages required by this script by sourcing functions.R in the mainScript.
 
 # Read in the data
-# install required R libraries if not installed already
-list.of.packages <- c("car", "tidyverse", "psych", "metafor", "esc", "lme4", "ggplot2", "knitr", "puniform", "kableExtra", "lmerTest", "pwr", "Amelia", "multcomp", "magrittr", "readxl")
-new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
-if(length(new.packages)) install.packages(new.packages)
-
-# load required libraries
-lapply(list.of.packages, require, quietly = TRUE, warn.conflicts = FALSE, character.only = TRUE)
-select <- dplyr::select
-
 dat <- read_delim("igdMetaData.csv", ";", trim_ws = TRUE)
 
 #str(dat)

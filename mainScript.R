@@ -16,9 +16,7 @@
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
 
 rm(list = ls())
-
 # Settings ----------------------------------------------------------------
-
 # What is the minimum number of effects to be synthesized
 kThreshold <- 10
 
@@ -31,40 +29,20 @@ outlierSensitivity <- FALSE
 # Should the meta-analytic models exclude effects based on selection inference approaches?
 selInfSensitivity <- FALSE
 
-# Assumed default pre-post correlation for within-subjects design, .50.
-# Here you can perform the sensitivity analysis to determine the impact of the assumed correlation on the overall effect size estimate.
-# E.g., for corr = c(.10, .30, .50, .70, 90).
-rmCor <- 0.5
-
-# Assumed constant sampling correlation
-rho <- 0.5
-
-# Side argument for the p-uniform* and conditional estimator of PET-PEESE. If the target effect should be in negative values, set to "left", otherwise "right".
-side <- "right"
-
-# Define whether to use one-tailed or two-tailed test for PET-PEESE, 3PSM, and p-uniform*.
-# Recommended by Stanley (2016) for literature where small sample-size studies are rather the norm.
-# Assuming alpha level of .05 for the two-tailed test
-test <- "one-tailed"
-
+# Controls for the multiple-parameter selection models 
 # No of simulations for the permutation-based bias correction models and p-curve specifically
 nIterations <- 3 # Set to 5 just to make code checking/running fast. For the final analysis, it should be set to 5000.
 nIterationsPcurve <- 3
-nIterationVWsensitivity <- 5 # Number of iterations for the Vevea & Woods (2005) step function model sensitivity analysis 
-
+nIterationVWsensitivity <- 3 # Number of iterations for the Vevea & Woods (2005) step function model sensitivity analysis 
 # Number of chains and iterations for Robust Bayesian model-averaging approach
 runRobMA <- TRUE
 robmaChains <- 2
 robmaSamples <- 100
 
-# Controls for PET-PEESE
-condEst <- FALSE
-
-# Controls for the multiple-parameter selection models 
-
 # Whether to apply a 4- or 3-parameter selection model. If fallback == TRUE, the procedure falls back to the 3-parameter selection model. 
 # This should be selected when too few effects in the opposite side make the estimate unstable.
 fallback <- TRUE
+
 # Even when fallback == FALSE, the 4-parameter selection model still falls back to 3 parameters for the given iteration if,
 # (1) it fails to converge or (2) the number of p-values in each of the step intervals gets smaller than minPvalues.
 minPvalues <- 4
@@ -78,15 +56,29 @@ stepsDelta <- data.frame(
   severeSelection =   c(1, 0.99, 0.97, 0.95, 0.65, 0.40, 0.25, 0.25, 0.25),
   extremeSelection =  c(1, 0.98, 0.95, 0.90, 0.50, 0.20, 0.10, 0.10, 0.10))
 
-# Sourcing and dat -----------------------------------------------------------------
+# Side argument for the p-uniform* and conditional estimator of PET-PEESE. If the target effect should be in negative values, set to "left", otherwise "right".
+# side <- "right"
+# For this application, we derived the side argument empirically from the direction of the majority of effect sizes, establishing risk and protective factors
+# Inside note: code edit for pre-defined side argument: puni_star, petPeese, powerEst
+
+# Define whether to use one-tailed or two-tailed test for PET-PEESE, 3PSM, and p-uniform*.
+# Recommended by Stanley (2016) for literature where small sample-size studies are rather the norm.
+# Assuming alpha level of .05 for the two-tailed test
+test <- "one-tailed"
+
+# Controls for PET-PEESE
+condEst <- FALSE
+
+# Assumed constant sampling correlation
+rho <- 0.5
+
+# Sourcing and reading data -----------------------------------------------------------------
 #+ include = FALSE
 source("functions.R")
 source("pcurvePlotOption.R")
 source("esConversion.R")
 if(outlierSensitivity == TRUE){source("maDiag.R")}
 statcheck <- read.csv("statcheck.csv")
-funnel <- metafor::funnel
-forest <- metafor::forest
 #dat <- dat[-c(129, 131, 132, 321),]
 
 # Descriptives ------------------------------------------------------------
@@ -283,16 +275,14 @@ dfRestricted <- dat %>% filter(sampleRestricted == 1, !is.na(vi)) %>% nrow() - 1
 #'#### Mean vi for non-restricted designs
 (viNonRestricted <- dat %>% filter(sampleRestricted == 0) %$% mean(vi, na.rm = T))
 dfNonRestricted <- dat %>% filter(sampleRestricted == 0, !is.na(vi)) %>% nrow() - 1
-#'#### F-statistics
-viRestricted/viNonRestricted
-#'#### F-test p-value
-(1 - pf(viRestricted/viNonRestricted, df1 = dfRestricted, df2 = dfNonRestricted))
+#'#### F-test
+(testEqVar <- c("F" = viRestricted/viNonRestricted, "p" = 1 - pf(viRestricted/viNonRestricted, df1 = dfRestricted, df2 = dfNonRestricted)))
 
 #'### Year of Publication
 #'
 #' Linear mixed-effects model. Taking into effect clustering of ESs due to originating from the same study. Using square root of variance to make the distribution normal.
 (LMEpubYear <- summary(lmer(scale(sqrt(vi)) ~ scale(journalH5) + scale(pubYear) + (1|study), data = dat, REML = T))$coefficients)
-#' Comment: all the variables were centered for easier interpretation of model coefficients. See the negative beta for Publication Year. The more recent a publication, the lower the variance (better precision), controlling for H5.
+#' Comment: all the variables were centered for easier interpretation of model coefficients. 
 #'
 
 #'#### Scatterplot year <-> precision

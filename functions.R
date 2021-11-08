@@ -1,7 +1,3 @@
-# Pocket 
-# print(deparse(substitute(df)))
-# do.call(rbind, x)
-
 # Load libraries (and install if not installed already)
 list.of.packages <- c("car", "reshape", "tidyverse", "tidyr", "psych", "metafor", "meta", "psychmeta", "dmetar", "esc", "lme4", "ggplot2", "knitr", "puniform", "kableExtra", "lmerTest", "pwr", "Amelia", "multcomp", "magrittr", "weightr", "clubSandwich", "ddpcr", "poibin", "robvis", "RoBMA")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
@@ -9,6 +5,9 @@ if(length(new.packages)) install.packages(new.packages)
 
 # load required libraries
 lapply(list.of.packages, require, quietly = TRUE, warn.conflicts = FALSE, character.only = TRUE)
+select <- dplyr::select
+funnel <- metafor::funnel
+forest <- metafor::forest
 
 # Determine the alpha level / use of one-tailed vs two-tailed test for p-uniform and PET-PEESE
 if (test == "one-tailed") {
@@ -33,69 +32,8 @@ rmaCustom <- function(data = NA){
               "RMA.MV object without cluster robust SEs" = rmaObjectModBasedSE))
 }
 
-# Model involving a single moderator
-# rmaMod <- function(data = NA, moderator = NA){
-#   data <- tibble(data)
-#   viMatrix <- data %$% impute_covariance_matrix(vi, cluster = study, r = rho)
-#   rmaObjectMod <- rma.mv(data$yi ~ 0 + data[,deparse(substitute(moderator))], V = viMatrix, method = "REML", random = ~ 1|data[,"study"]/data[,"result"], sparse = TRUE)
-#   data %$% conf_int(rmaObjectMod, vcov = "CR2", test = "z", cluster = study)
-# }
-
-# 
-# 
-# Wald_test(aa, constraints = constrain_equal(1:length(table(factor(dat$gamingStyle)))), vcov = "CR2")
-# 
-# 
-# modResults <- data %$% list("k" = table(data[,moderator]),
-#                             "test" = coef_test(rmaObjectMod, vcov = "CR2", test = "z", cluster = study),
-#                             "CIs" = conf_int(rmaObjectMod, vcov = "CR2", test = "z", cluster = study))
-# "RVE Wald test" = Wald_test(rmaObjectMod, constraints = constrain_equal(1:length(table(factor(data$moderator)))), vcov = "CR2")))
-# 
-# 
-# rma.mv(yi ~ 0 + factor(gamingStyle), V = viMatrix, data = dat, method = "REML", random = ~ 1|study/result, sparse = TRUE)
-# 
-# 
-# dat %>% filter(useMeta == 1 & !is.na(gamingStyle)) %>% rmaMod(gamingStyle)
-# rmaMod(dat %>% filter(useMeta == 1 & !is.na(gamingStyle)), "percFemale")
-# 
-# aa <- function(data = NA, moderator = NA){
-#   xx <- data %>% lm(.[,"weight"] ~ .[,deparse(substitute(moderator))])
-#   return(xx)
-# }
-# 
-# aa(ChickWeight, Chick)
-# 
-# my_data <- data.frame(x1 = 1:5,                          # Create example data
-#                       x2 = LETTERS[1:5],
-#                       x3 = 1)
-# my_data       
-# 
-# my_fun <- function(data_input, columns) {                # Write user-defined function
-#   data_output <- data_input[ , deparse(substitute(columns))]
-#   # At this point of the function, do with the columns whatever you want...
-#   return(data_output)
-# }
-# 
-# my_fun(my_data, x1)
-# 
-# # call function, passing data.frame and column 
-# my_function(df, value)
-# 
-# get.max <- function(column,data=NULL){
-#   column<-eval(substitute(column),data, parent.frame())
-#   max(column)
-# }
-# 
-# new_column2 <- function(df,col_name,col1,col2){
-#   col_name <- deparse(substitute(col_name))
-#   col1 <- deparse(substitute(col1))
-#   col2 <- deparse(substitute(col2))
-#   
-#   df[[col_name]] <- df[[col1]] + df[[col2]]
-#   df
-# }
-
 # 95% prediction interval -------------------------------------------------
+
 pi95 <- function(rmaObject = NA){
   pi95Out <- c("95% PI LB" = round(predict.rma(rmaObject[[1]])$cr.lb, 3), "95% PI UB" = round(predict.rma(rmaObject[[1]])$cr.ub, 3))
   pi95Out
@@ -150,7 +88,7 @@ pcurvePerm <- function(data, esEstimate = FALSE, plot = FALSE, nIterations = nIt
   resultPcurve <- matrix(ncol = 11, nrow = nIterationsPcurve)
   set.seed(1)
   for(i in 1:nIterationsPcurve){
-    datPcurve <- data[!duplicated.random(data$study) & data$focal == 1 & !is.na(data$p),]
+    datPcurve <- data[!duplicated.random(data$study) & data$focal == 1 & !is.na(data$yi) & !is.na(data$vi),]
     metaPcurve <- tryCatch(metagen(TE = yi, seTE = sqrt(vi), n.e = ni, data = datPcurve),
                            error = function(e) NULL)
     modelPcurve <- tryCatch(pcurveMod(metaPcurve, effect.estimation = esEstimate, N = datPcurve$ni, plot = plot), 
@@ -250,11 +188,18 @@ petPeese <- function(data, nBased = TRUE, selModAsCondEst = condEst){  # if nBas
   names(peese.out) <- c("PEESE estimate", "se", "zvalue", "pvalue", "ciLB", "ciUB")
   
   if(selModAsCondEst == TRUE){
-    ifelse(resultSM["pvalue"] < alpha & ifelse(exists("side") & side == "left", -1, 1) * resultSM["est"] > 0,
+    ifelse(resultSM["pvalue"] < alpha & ifelse(median(data$directionEffect, na.rm = T) == -1, -1, 1) * resultSM["est"] > 0,
            return(c(peese.out, pet.out)),  return(c(pet.out, peese.out)))
   } else {
-    ifelse(pet$pval[1] < alpha & ifelse(exists("side") & side == "left", -1, 1) * pet$b[1] > 0,
+    ifelse(pet$pval[1] < alpha & ifelse(median(data$directionEffect, na.rm = T) == -1, -1, 1) * pet$b[1] > 0,
            return(c(peese.out, pet.out)),  return(c(pet.out, peese.out)))
+  
+  # if(selModAsCondEst == TRUE){
+  #   ifelse(resultSM["pvalue"] < alpha & ifelse(exists("side") & side == "left", -1, 1) * resultSM["est"] > 0,
+  #          return(c(peese.out, pet.out)),  return(c(pet.out, peese.out)))
+  # } else {
+  #   ifelse(pet$pval[1] < alpha & ifelse(exists("side") & side == "left", -1, 1) * pet$b[1] > 0,
+  #          return(c(peese.out, pet.out)),  return(c(pet.out, peese.out)))
   } 
 }
 
@@ -331,8 +276,11 @@ powerEst <- function(data = NA){
   c("Median power for detecting a SESOI of d = .20" = power20sd,
     "Median power for detecting a SESOI of d = .50" = power50sd,
     "Median power for detecting a SESOI of d = .70" = power70sd,
-    "Median power for detecting PET-PEESE estimate" = ifelse(peeseEst > 0, powerPEESEresult, paste("ES estimate in the opposite direction")), 
-    "Median power for detecting 4/3PSM estimate" = ifelse(resultSM["est"] > 0, powerSMresult, paste("ES estimate in the opposite direction")))
+    "Median power for detecting PET-PEESE estimate" = powerPEESEresult, 
+    "Median power for detecting 4/3PSM estimate" = powerSMresult)
+   
+   # "Median power for detecting PET-PEESE estimate" = ifelse(peeseEst > 0, powerPEESEresult, paste("ES estimate in the opposite direction")), 
+    # "Median power for detecting 4/3PSM estimate" = ifelse(resultSM["est"] > 0, powerSMresult, paste("ES estimate in the opposite direction")))
 }
 
 # Publication bias summary function-------------------------------
@@ -366,8 +314,7 @@ bias <- function(data = NA, rmaObject = NA, runRobMA = 1){
   resultPuniform <- matrix(ncol = 4, nrow = nIterations)
   set.seed(1)
   for(i in 1:nIterations){
-    data <- data %>% filter(useMeta == 1)
-    modelPuniform <- data[!duplicated.random(data$study) & data$focal == 1 & !is.na(data$vi),] %$% tryCatch(puni_star(yi = yi, vi = vi, alpha = alpha, side = side, method = "ML"), error = function(e) NULL)
+    modelPuniform <- data[!duplicated.random(data$study) & data$focal == 1 & data$useMeta == 1 & !is.na(data$yi) & !is.na(data$vi),] %$% tryCatch(puni_star(yi = yi, vi = vi, alpha = alpha, side = ifelse(median(directionEffect, na.rm = T) == -1, "left", "right"), method = "ML"), error = function(e) NULL)
     resultPuniform[i,] <- ifelse(!is.null(modelPuniform), c("est" = modelPuniform[["est"]], "ciLB" = modelPuniform[["ci.lb"]], "ciUB" = modelPuniform[["ci.ub"]], "p-value" = modelPuniform[["pval.0"]]), NA)
   }
   colnames(resultPuniform) <- c("est", "ciLB", "ciUB", "pvalue")
