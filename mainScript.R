@@ -13,7 +13,6 @@
 
 #+ setup, include = FALSE
 # NOTE: Please note that to run the script, you need the development versions of metafor and dmetar packages from github.
-knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
 
 rm(list = ls())
 # Settings ----------------------------------------------------------------
@@ -21,7 +20,7 @@ rm(list = ls())
 kThreshold <- 10
 
 # Should bias-correction methods be applied to meta-analytic models?
-biasOn <- TRUE
+biasOn <- T
 
 # Should the meta-analytic models exclude outlying, excessively influential effects?
 outlierSensitivity <- FALSE
@@ -72,6 +71,9 @@ condEst <- FALSE
 # Assumed constant sampling correlation
 rho <- 0.5
 
+# Correct for indirect selection bias. If FALSE, only direct uni/bivariate selection will be accounted for.
+indirectSel <- FALSE
+
 # Sourcing and reading data -----------------------------------------------------------------
 #+ include = FALSE
 source("functions.R")
@@ -81,6 +83,7 @@ if(outlierSensitivity == TRUE){source("maDiag.R")}
 statcheck <- read.csv("statcheck.csv")
 #dat <- dat[-c(129, 131, 132, 321),]
 
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
 # Descriptives ------------------------------------------------------------
 
 #'# Descriptives
@@ -141,12 +144,12 @@ table(dat$design)
 table(dat$possibleCOI)
 
 # Meta-analysis -----------------------------------------------------------
-#'# Meta-analysis results
+#'# Meta-analysis results for individual correlates
 #'
 #' Number of iterations run equal to `r nIterationsPcurve` for p-curve and `r nIterations` for all other bias correction functions.
 #' For sensitivity analyses, we ran `r nIterationVWsensitivity` iterations for the Vevea & Woods (2005) step function model.
 #' For supplementary robust bayesian model-averaging approach, we employed `r robmaChains` MCMC chains with `r robmaSamples` sampling iterations.
-tab <- sort(table(dat$correlate))[sort(table(dat$correlate)) > kThreshold]
+tab <- sort(table(dat$correlate), decreasing = T)[sort(table(dat$correlate), decreasing = T) > kThreshold]
 corVect <- names(tab)
 rmaObjects <- rmaResults <- metaResultsPcurve <- vector(mode = "list", length(corVect))
 names(rmaObjects) <- names(rmaResults) <- names(metaResultsPcurve) <- corVect
@@ -184,12 +187,70 @@ for(i in 1:length(corVect)){
 }
 names(forestPlots) <- names(funnelPlots) <- names(pcurvePlots) <- corVect
 
+#'# Meta-analysis results for aggregated correlate types
+#'
+#'## Comparison of correlate types
+#'
+#' Model without covariates
+viMatrix <- dat %$% impute_covariance_matrix(vi, cluster = study, r = rho)
+rmaObjectCorrType <- dat %>% mutate(yi = abs(yi)) %$% rma.mv(yi ~ 0 + correlateType, V = viMatrix, method = "REML", random = ~ 1|study/result, sparse = TRUE)
+(RVEmodelCorrType <- dat %$% list("k" = table(correlateType),
+                                  "test" = coef_test(rmaObjectCorrType, vcov = "CR2", test = "z", cluster = study), 
+                                  "CIs" = conf_int(rmaObjectCorrType, vcov = "CR2", test = "z", cluster = study),
+                                  "RVE Wald test" = Wald_test(rmaObjectCorrType, constraints = constrain_equal(1:5), vcov = "CR2")))
+
+#' Model with covariates
+#' 
+#' Controlling for design-related factors that are prognostic w.r.t. the effect sizes (i.e., might vary across moderator categories).
+rmaObjectCorrTypeCov <- dat %>% mutate(yi = abs(yi)) %$% rma.mv(yi ~ 0 + correlateType + meanAge + percFemale + gamingStyle + sampleType, V = viMatrix, method = "REML", random = ~ 1|study/result, sparse = TRUE)
+(RVEmodelCorrTypeCov <- dat %$% list("test" = coef_test(rmaObjectCorrTypeCov, vcov = "CR2", test = "z", cluster = study), 
+                                      "CIs" = conf_int(rmaObjectCorrTypeCov, vcov = "CR2", test = "z", cluster = study),
+                                      "RVE Wald test" = Wald_test(rmaObjectCorrTypeCov, constraints = constrain_equal(1:5), vcov = "CR2")))
+
+#'## Full results for correlate type subsets
+tabT <- sort(table(dat$correlateType), decreasing = T)[sort(table(dat$correlateType), decreasing = T) > kThreshold]
+corVectT <- names(tabT)
+rmaObjectsT <- rmaResultsT <- metaResultsPcurveT <- vector(mode = "list", length(corVectT))
+names(rmaObjectsT) <- names(rmaResultsT) <- names(metaResultsPcurveT) <- corVectT
+for(i in 1:length(corVectT)){
+  data <- dat %>% filter(correlateType == corVectT[i]) %>% mutate(yi = abs(yi))
+  if(outlierSensitivity == TRUE){
+    if(!is.null(infResults)){
+      data <- data %>% filter(!result %in% as.numeric(infResults[[i]]$rowname))
+    }
+  }
+  if(selInfSensitivity == TRUE){
+    data <- data %>% filter(!selectiveInference == 1)
+  }
+  rmaObjectT <- data %>% rmaCustom()
+  rmaResultsT[[i]] <- data %>% maResults(., rmaObject = rmaObjectT, bias = biasOn)
+  if(biasOn == TRUE){metaResultsPcurveT[[i]] <- metaResultPcurve}
+  rmaObjectsT[[i]] <- rmaObjectT[[1]]
+}
+
+(rmaTableT <- lapply(rmaResultsT, function(x){maResultsTable(x, bias = biasOn)}) %$% as.data.frame(do.call(rbind, .)))
+
+# Meta-analysis plots for aggregated correlate types (forest, funnel, p-curve plots)
+displayPlots <- FALSE
+forestPlotsT <- funnelPlotsT <- pcurvePlotsT <- list(NA)
+for(i in 1:length(corVectT)){
+  xlab <- eval(substitute(corVectT[i]))
+  forest(rmaObjectsT[[i]], order = order(rmaObjectsT[[i]]$vi.f, decreasing = T), addpred = T, header="Paper/Study/Effect", xlab = xlab, mlab="", col="gray40")
+  forestPlotsT[[i]] <- recordPlot()
+  funnel(rmaObjectsT[[i]], level = c(90, 95, 99), shade = c("white", "gray", "darkgray"), refline = 0, pch = 20, yaxis = "sei", digits = c(1, 2), xlab = xlab)
+  funnelPlotsT[[i]] <- recordPlot()
+  tryCatch(quiet(pcurveMod(metaResultsPcurveT[[i]], effect.estimation = FALSE, plot = TRUE)), error = function(e) NULL)
+  if(!is.null(metaResultsPcurveT[[i]])){title(xlab, cex.main = 1)} else {next}
+  pcurvePlotsT[[i]] <- recordPlot()
+  if(displayPlots == FALSE) dev.off()
+}
+names(forestPlotsT) <- names(funnelPlotsT) <- names(pcurvePlotsT) <- corVectT
+
 # Sensitivity analyses ----------------------------------------------------
 
 #'## Sensitivity analyses
 
 # Corrections of statistical artifacts (measurement error and selection effects)
-indirectSel <- FALSE
 xyArtefactCorResult <- xArtefactCorResult <- vector(mode = "list", length(corVect))
 names(xyArtefactCorResult) <- names(xArtefactCorResult) <- corVect
 for(i in 1:length(corVect)){
@@ -289,13 +350,13 @@ dfNonRestricted <- dat %>% filter(sampleRestricted == 0, !is.na(vi)) %>% nrow() 
 #'
 #' Size of the points indicate the H5 index (the bigger the higher) of the journal that the ES is published in.
 (yearPrecisionScatter <- dat %>%  ggplot(aes(pubYear, sqrt(vi))) + 
-  geom_point(aes(size = journalH5), alpha = .70, colour = "#80afce") +
-  geom_smooth(method = lm) +
-  scale_x_continuous() +
-  xlab("Year of publication") +
-  ylab("Imprecision") +
-  theme_bw() +
-  theme(legend.position = "none"))
+    geom_point(aes(size = journalH5), alpha = .70, colour = "#80afce") +
+    geom_smooth(method = lm) +
+    scale_x_continuous() +
+    xlab("Year of publication") +
+    ylab("Imprecision") +
+    theme_bw() +
+    theme(legend.position = "none"))
 
 #'### Citations
 #'
@@ -306,12 +367,12 @@ dfNonRestricted <- dat %>% filter(sampleRestricted == 0, !is.na(vi)) %>% nrow() 
 #'
 #' The relationship between precision (sqrt of variance) and number of citations (log).
 (citationsPrecisionScatter <- dat %>% ggplot(aes(log(citations + 1), sqrt(vi))) + 
-  geom_point(alpha = .70, colour = "#80afce") +
-  geom_smooth(method = lm) +
-  xlab("Citations (log)") +
-  ylab("Precision") +
-  theme_bw() +
-  theme(legend.position = "none"))
+    geom_point(alpha = .70, colour = "#80afce") +
+    geom_smooth(method = lm) +
+    xlab("Citations (log)") +
+    ylab("Precision") +
+    theme_bw() +
+    theme(legend.position = "none"))
 
 #'### H5 index
 #'
@@ -322,12 +383,12 @@ dfNonRestricted <- dat %>% filter(sampleRestricted == 0, !is.na(vi)) %>% nrow() 
 #'
 #' The relationship between precision (sqrt of variance) and H5 index of the journal.
 (h5PrecisionScatter <- dat %>% ggplot(aes(journalH5, sqrt(vi))) + 
-  geom_point(alpha = .70, colour = "#80afce") +
-  geom_smooth(method = lm) +
-  xlab("H5 index") +
-  ylab("Precision") +
-  theme_bw() +
-  theme(legend.position = "none"))
+    geom_point(alpha = .70, colour = "#80afce") +
+    geom_smooth(method = lm) +
+    xlab("H5 index") +
+    ylab("Precision") +
+    theme_bw() +
+    theme(legend.position = "none"))
 
 #'### Decline effect
 #'

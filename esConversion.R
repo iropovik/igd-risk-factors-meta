@@ -3,13 +3,13 @@
 # Read in the data
 dat <- read_delim("igdMetaData.csv", ";", trim_ws = TRUE)
 
-#str(dat)
-#view(dat)
+#Some initial data wrangling
 dat <- dat %>% modify_at(., .at = c("pubYear", "meanIGD", "meanControl", "sdIGD", "sdControl", "F", "t", "r", "r_s"), .f = ~as.numeric(as.character(.)))
 #grepl("^[-]{0,1}[0-9]{0,}.{0,1}[0-9]{1,}$", dat$meanIGD)
-
-# Some data wrangling to get the right type of data (formatting of the raw dataset in Excel introduces a lot of junk otherwise)
+dat$correlateType <- recode(dat$correlateType, `1` = "demographic", `2` = "social", `3` = "psychological", `4` = "environmental", `5` = "other")
 dat$pReported <- as.numeric(as.character(gsub("[^0-9.]", "", dat$pReported)))
+
+# Recode correlate type
 
 # Compute df2 from nTotal if not reported, gender ratio (% of female), create result ID, and initialize new variables
 dat <- dat %>% mutate(df2 = ifelse(is.na(df2) & !is.na(nTotal) & is.na(chiSq), nTotal - 2, df2),
