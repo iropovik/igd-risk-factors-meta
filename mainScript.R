@@ -1,5 +1,5 @@
 #' ---
-#' title: "The effect of videogames on attitude change - a meta-analysis"
+#' title: "Risk factors for Gaming Disorder: A meta-analysis"
 #' author: "Ivan Ropovik"
 #' date: "`r Sys.Date()`"
 #' output:
@@ -20,7 +20,7 @@ rm(list = ls())
 kThreshold <- 10
 
 # Should bias-correction methods be applied to meta-analytic models?
-biasOn <- T
+biasOn <- FALSE
 
 # Should the meta-analytic models exclude outlying, excessively influential effects?
 outlierSensitivity <- FALSE
@@ -152,7 +152,7 @@ table(dat$possibleCOI)
 #' Number of iterations run equal to `r nIterationsPcurve` for p-curve and `r nIterations` for all other bias correction functions.
 #' For sensitivity analyses, we ran `r nIterationVWsensitivity` iterations for the Vevea & Woods (2005) step function model.
 #' For supplementary robust bayesian model-averaging approach, we employed `r robmaChains` MCMC chains with `r robmaSamples` sampling iterations.
-tab <- sort(table(dat$correlate), decreasing = T)[sort(table(dat$correlate), decreasing = T) > kThreshold]
+tab <- sort(table(dat$correlate), decreasing = T)[sort(table(dat$correlate), decreasing = T) > 1]
 corVect <- names(tab)
 rmaObjects <- rmaResults <- metaResultsPcurve <- vector(mode = "list", length(corVect))
 names(rmaObjects) <- names(rmaResults) <- names(metaResultsPcurve) <- corVect
@@ -190,12 +190,26 @@ for(i in 1:length(corVect)){
 names(forestPlots) <- names(funnelPlots) <- names(pcurvePlots) <- corVect
 
 #'# Meta-analysis results for aggregated correlate types
+
+# Empirical direction of individual correlate types
+# Needed to scale the risk and protective factor in the same direction on aggregate
+tabED <- sort(table(dat$correlate), decreasing = T)[sort(table(dat$correlate), decreasing = T) > 1]
+corVectED <- names(tabED)
+rmaResultsED <- vector(mode = "list", length(corVectED))
+names(rmaResultsED) <- corVectED
+for(i in 1:length(corVectED)){
+  rmaResultsED[[i]] <- rma(yi, vi, data = dat %>% filter(correlate == corVectED[i]))
+}
+empiricalDirection <- cbind("correlate" = names(rmaResultsED), 
+                            lapply(rmaResultsED, function(x){x[[1]]/abs(x[[1]])}) %$% as.data.frame(do.call(rbind, .)) %>% `colnames<-`("empiricalDirection")) %>% `rownames<-` (NULL)
+dat <- left_join(dat, empiricalDirection, by = "correlate")
+
 #'
 #'## Comparison of correlate types
 #'
 #' Model without covariates
 viMatrix <- dat %$% impute_covariance_matrix(vi, cluster = study, r = rho)
-rmaObjectCorrType <- dat %>% mutate(yi = abs(yi)) %$% rma.mv(yi ~ 0 + correlateType, V = viMatrix, method = "REML", random = ~ 1|study/result, sparse = TRUE)
+rmaObjectCorrType <- dat %>% mutate(yi = yi*empiricalDirection) %$% rma.mv(yi ~ 0 + correlateType, V = viMatrix, method = "REML", random = ~ 1|study/result, sparse = TRUE)
 (RVEmodelCorrType <- dat %$% list("k" = table(correlateType),
                                   "test" = coef_test(rmaObjectCorrType, vcov = "CR2", test = "z", cluster = study), 
                                   "CIs" = conf_int(rmaObjectCorrType, vcov = "CR2", test = "z", cluster = study),
@@ -204,7 +218,7 @@ rmaObjectCorrType <- dat %>% mutate(yi = abs(yi)) %$% rma.mv(yi ~ 0 + correlateT
 #' Model with covariates
 #' 
 #' Controlling for design-related factors that are prognostic w.r.t. the effect sizes (i.e., might vary across moderator categories).
-rmaObjectCorrTypeCov <- dat %>% mutate(yi = abs(yi)) %$% rma.mv(yi ~ 0 + correlateType + meanAge + percFemale + gamingStyle + sampleType, V = viMatrix, method = "REML", random = ~ 1|study/result, sparse = TRUE)
+rmaObjectCorrTypeCov <- dat %>% mutate(yi = yi*empiricalDirection) %$% rma.mv(yi ~ 0 + correlateType + meanAge + percFemale + gamingStyle + sampleType, V = viMatrix, method = "REML", random = ~ 1|study/result, sparse = TRUE)
 (RVEmodelCorrTypeCov <- dat %$% list("test" = coef_test(rmaObjectCorrTypeCov, vcov = "CR2", test = "z", cluster = study), 
                                       "CIs" = conf_int(rmaObjectCorrTypeCov, vcov = "CR2", test = "z", cluster = study),
                                       "RVE Wald test" = Wald_test(rmaObjectCorrTypeCov, constraints = constrain_equal(1:5), vcov = "CR2")))
@@ -215,7 +229,7 @@ corVectT <- names(tabT)
 rmaObjectsT <- rmaResultsT <- metaResultsPcurveT <- vector(mode = "list", length(corVectT))
 names(rmaObjectsT) <- names(rmaResultsT) <- names(metaResultsPcurveT) <- corVectT
 for(i in 1:length(corVectT)){
-  data <- dat %>% filter(correlateType == corVectT[i]) %>% mutate(yi = abs(yi))
+  data <- dat %>% filter(correlateType == corVectT[i]) %>% mutate(yi = yi*empiricalDirection)
   if(outlierSensitivity == TRUE){
     if(!is.null(infResults)){
       data <- data %>% filter(!result %in% as.numeric(infResults[[i]]$rowname))

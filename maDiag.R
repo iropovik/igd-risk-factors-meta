@@ -1,9 +1,9 @@
 # Should plots be generated?
-plots <- FALSE
+plotsDiag <- FALSE
 
 # Missing data ------------------------------------------------------------
 #'# Percentage of missing data overall
-if(plots == TRUE){
+if(plotsDiag == TRUE){
   dat %>% missmap(rank.order = TRUE, margins = c(10, 0), legend = F)
 }
 
@@ -19,7 +19,7 @@ for(i in 1:length(corVect)){
   # Univariate MA
   rmaUni <- dat %>% filter(correlate == corVect[i] & !is.na(yi)) %$% rma(yi = yi, vi = vi, method = "REML", slab = result)
   # MA diagnostics
-  if(plots == TRUE){
+  if(plotsDiag == TRUE){
     baujat(rmaUni, symbol = "slab", xlab = xLabel)
     diagResults[[i]][["Baujat"]] <- recordPlot() 
   }
@@ -27,7 +27,7 @@ for(i in 1:length(corVect)){
   infl <- influence(rmaUni)
   diagResults[[i]][["Influence"]] <- infResults[[i]] <- as.data.frame(infl$inf) %>% rownames_to_column() %>% filter(rstudent > 2.58) %>% head(.,5)
   ### Plot the influence diagnostics
-  if(plots == TRUE){
+  if(plotsDiag == TRUE){
     plot(infl, slab.style = 2)
     title(xLabel, line = 3.2)
     diagResults[[i]][["Influence plot"]] <- recordPlot()
