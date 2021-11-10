@@ -6,7 +6,7 @@ dat <- read_delim("igdMetaData.csv", ";", trim_ws = TRUE)
 #Some initial data wrangling
 dat <- dat %>% modify_at(., .at = c("pubYear", "meanIGD", "meanControl", "sdIGD", "sdControl", "F", "t", "r", "r_s"), .f = ~as.numeric(as.character(.)))
 #grepl("^[-]{0,1}[0-9]{0,}.{0,1}[0-9]{1,}$", dat$meanIGD)
-dat$correlateType <- recode(dat$correlateType, `1` = "demographic", `2` = "social", `3` = "psychological", `4` = "environmental", `5` = "other")
+dat$correlateType <- recode(dat$correlateType, `1` = "demographic", `2` = "social", `3` = "psychological", `4` = "psychopathological", `5` = "maladaptive personality traits", `6` = "gaming-related", `7` = "other")
 dat$pReported <- as.numeric(as.character(gsub("[^0-9.]", "", dat$pReported)))
 
 # Recode correlate type
@@ -93,17 +93,6 @@ dat[dat$finalDesign == "chiSqBtw" & !is.na(dat$finalDesign),]$viConv <- dat %>% 
 # Show the converted ESs
 dat %>% filter(finalDesign == "chiSqBtw") %>% select(yiConv, viConv, chiSq, ni, design)
 
-
-# Odds ratio --------------------------------------------------------------
-
-# d_logOR <- logOR * (sqrt(3)/pi)
-# d_logOR
-# ## [1] 0.2235
-# V_logOR <- .08
-# V_d_logOR <- V_logOR * (3/(pi^2))
-# V_d_logOR
-
-
 # Correlation -------------------------------------------------------------
 # Specify the design, convert rho to r, and compute ni and p
 dat <- dat %>% mutate(finalDesign = ifelse((!is.na(r) | !is.na(r_s)) & !is.na(df2), "cor", finalDesign),
@@ -136,23 +125,3 @@ dat <- dat %>% mutate(yi = ifelse(is.na(yi) & (!is.na(yiConv) & !is.na(direction
                       uy = sqrt((1-rxxV2reference)/(1-rxxV2sample)))
 
 dat <- as.data.frame(dat)
-
-# dat %>% filter((!is.na(meanIGD) | !is.na(meanControl) | !is.na(sdIGD) | !is.na(sdControl) | !is.na(nIGD) | !is.na(nControl) | !is.na(F) |!is.na(t) | !is.na(r) | !is.na(chiSq) | !is.na(otherES)| !is.na(df1) | !is.na(df2) | !is.na(nTotal) | !is.na(r_s)) & (is.na(yi) | is.na(vi)) & !is.na(directionEffect) & is.na(otherES)) %>%
-#    select(label, meanIGD,meanControl,sdIGD,sdControl,nIGD,nControl,F,t,r, r_s, chiSq,df1,df2,nTotal,r_s, directionEffect, yi, vi, gdCriteria, correlate) %>% view()
-
-# dat %>% filter(!is.na(yi) & !is.na(vi) & (yi > .85 | yi < -.85)) %>%
-#    select(label, meanIGD,meanControl,sdIGD,sdControl,nIGD,nControl,F,t,r, r_s, chiSq,df1,df2,nTotal,r_s, directionEffect, yi, vi, gdCriteria, correlate) %>% view()
-
-# Remove outliers (based on the results from the maDiag script)
-# dat <- dat %>% filter(!result %in% c())
-
-# dat %>% select(label, yi, vi, yiConv, dReported, directionEffect, meanIGD, meanControl, sdExp, sdCtrl, seExp, seCtrl, nIGD, nControl, df2, F, t, r) %>% view()
-
-# dat %>% filter(ni != nTotal) %>% select(ni, nTotal, df2, nIGD, nControl)
-# dat %>% filter(abs(dReported - gConv) > .2) %>% select(result, gConv, dReported)
-# 
-# dat$studentSample <- ifelse(dat$sampleType == "student", 1, ifelse(dat$sampleType == "general", 0, NA))
-
-# Remove outliers (based on the results from the maDiag script)
-# dat <- dat %>% filter(!result %in% c(194))
-

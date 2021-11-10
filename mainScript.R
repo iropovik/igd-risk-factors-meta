@@ -152,7 +152,7 @@ table(dat$possibleCOI)
 #' Number of iterations run equal to `r nIterationsPcurve` for p-curve and `r nIterations` for all other bias correction functions.
 #' For sensitivity analyses, we ran `r nIterationVWsensitivity` iterations for the Vevea & Woods (2005) step function model.
 #' For supplementary robust bayesian model-averaging approach, we employed `r robmaChains` MCMC chains with `r robmaSamples` sampling iterations.
-tab <- sort(table(dat$correlate), decreasing = T)[sort(table(dat$correlate), decreasing = T) > 1]
+tab <- sort(table(dat$correlate), decreasing = T)[sort(table(dat$correlate), decreasing = T) > kThreshold]
 corVect <- names(tab)
 rmaObjects <- rmaResults <- metaResultsPcurve <- vector(mode = "list", length(corVect))
 names(rmaObjects) <- names(rmaResults) <- names(metaResultsPcurve) <- corVect
@@ -171,7 +171,6 @@ for(i in 1:length(corVect)){
   if(biasOn == TRUE){metaResultsPcurve[[i]] <- metaResultPcurve}
   rmaObjects[[i]] <- rmaObject[[1]]
 }
-
 (rmaTable <- lapply(rmaResults, function(x){maResultsTable(x, bias = biasOn)}) %$% as.data.frame(do.call(rbind, .)))
 
 # Meta-analysis plots (forest, funnel, p-curve plots)
@@ -182,12 +181,13 @@ for(i in 1:length(corVect)){
   forestPlots[[i]] <- recordPlot()
   funnel(rmaObjects[[i]], level = c(90, 95, 99), shade = c("white", "gray", "darkgray"), refline = 0, pch = 20, yaxis = "sei", digits = c(1, 2), xlab = xlab)
   funnelPlots[[i]] <- recordPlot()
-  tryCatch(quiet(pcurveMod(metaResultsPcurve[[i]], effect.estimation = FALSE, plot = TRUE)), error = function(e) NULL)
+  tryCatch(quiet(pcurveMod(metaResultsPcurve[[i]], effect.estimation = FALSE, plot = TRUE)), error = function(e) NA)
   if(!is.null(metaResultsPcurve[[i]])){title(xlab, cex.main = 1)} else {next}
   pcurvePlots[[i]] <- recordPlot()
   if(displayPlots == FALSE) dev.off()
 }
-names(forestPlots) <- names(funnelPlots) <- names(pcurvePlots) <- corVect
+names(forestPlots) <- names(funnelPlots) <- corVect
+if(biasOn == TRUE){names(pcurvePlots) <- corVect}
 
 #'# Meta-analysis results for aggregated correlate types
 
@@ -204,7 +204,6 @@ empiricalDirection <- cbind("correlate" = names(rmaResultsED),
                             lapply(rmaResultsED, function(x){x[[1]]/abs(x[[1]])}) %$% as.data.frame(do.call(rbind, .)) %>% `colnames<-`("empiricalDirection")) %>% `rownames<-` (NULL)
 dat <- left_join(dat, empiricalDirection, by = "correlate")
 
-#'
 #'## Comparison of correlate types
 #'
 #' Model without covariates
@@ -243,7 +242,6 @@ for(i in 1:length(corVectT)){
   if(biasOn == TRUE){metaResultsPcurveT[[i]] <- metaResultPcurve}
   rmaObjectsT[[i]] <- rmaObjectT[[1]]
 }
-
 (rmaTableT <- lapply(rmaResultsT, function(x){maResultsTable(x, bias = biasOn)}) %$% as.data.frame(do.call(rbind, .)))
 
 # Meta-analysis plots for aggregated correlate types (forest, funnel, p-curve plots)
@@ -257,7 +255,8 @@ for(i in 1:length(corVectT)){
   pcurvePlotsT[[i]] <- recordPlot()
   if(displayPlots == FALSE) dev.off()
 }
-names(forestPlotsT) <- names(pcurvePlotsT) <- corVectT
+names(forestPlotsT) <- corVectT
+if(biasOn == TRUE){names(pcurvePlotsT) <- corVectT}
 
 # Sensitivity analyses ----------------------------------------------------
 
@@ -283,7 +282,7 @@ rmaObjectsZ <- rmaResultsZ <- vector(mode = "list", length(corVect))
 names(rmaObjectsZ) <- names(rmaResultsZ) <- corVect
 for(i in 1:length(corVect)){
   rmaObject <- dat %>% filter(correlate == corVect[i]) %>% mutate(yi = yi_z, vi = vi_z) %>% rmaCustom()
-  rmaObjectsZ[[i]] <- predict(rmaObject[[1]], transf=transf.ztor)
+  rmaObjectsZ[[i]] <- predict(rmaObject[[1]], transf = transf.ztor)
 }
 rmaObjectsZ
 
