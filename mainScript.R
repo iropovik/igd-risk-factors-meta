@@ -20,7 +20,7 @@ rm(list = ls())
 kThreshold <- 10
 
 # Should bias-correction methods be applied to meta-analytic models?
-biasOn <- FALSE
+biasOn <- TRUE
 
 # Should the meta-analytic models exclude outlying, excessively influential effects?
 outlierSensitivity <- FALSE
@@ -100,12 +100,12 @@ c("from" = min(dat$pubYear, na.rm = T), "to" = max(dat$pubYear, na.rm = T))
 dat %>% filter(!is.na(yi)) %>% nrow()
 
 #'### N of studies
-dat %>% filter(is.na(reasonNotUsed)) %$% length(unique(.$study)) # overall
-dat %>% filter(!is.na(yi) & is.na(reasonNotUsed)) %$% length(unique(.$study)) # for which ES data were available
+c("Studies overall" = dat %>% filter(is.na(reasonNotUsed)) %$% length(unique(.$study)),
+  "Studies for which ES data were available" = dat %>% filter(!is.na(yi) & is.na(reasonNotUsed)) %$% length(unique(.$study)))
 
 #'###  N of papers
-dat %>% filter(is.na(reasonNotUsed)) %$% length(unique(.$paperID))
-dat %>% filter(!is.na(yi) & is.na(reasonNotUsed)) %$% length(unique(.$paperID))
+c("Papers overall" = dat %>% filter(is.na(reasonNotUsed)) %$% length(unique(.$paperID)),
+  "Papers for which ES data were available" = dat %>% filter(!is.na(yi) & is.na(reasonNotUsed)) %$% length(unique(.$paperID)))
 
 #'### Median N across all the ES eligible for meta-analysis
 median(dat$ni, na.rm = T)
@@ -117,34 +117,33 @@ for(i in unique(dat[is.na(dat$reasonNotUsed),]$study)){
 }
 sum(unlist(out), na.rm = T)
 
-#'### Number published
-table(dat$published)
+#'## Proportion of effects in published papers
+prop.table(table(dat$published))*100
 
-#'### Mean gender ratio (percent female)
+#'## Mean gender ratio (percent female)
 out <- list(NA)
 for(i in unique(dat[is.na(dat$reasonNotUsed),]$study)){
   out[i] <- dat %>% filter(study == i & is.na(reasonNotUsed)) %>% select(percFemale) %>% unlist() %>% median()
 }
-mean(unlist(out), na.rm = T)
-sd(unlist(out), na.rm = T)
+c("Mean" = mean(unlist(out), na.rm = T), "SD" = sd(unlist(out), na.rm = T))
 
-#'### Weighted mean age of included samples
+#'## Weighted mean age of included samples
 dat[is.na(dat$reasonNotUsed) & !is.na(dat$ni),] %$% weighted.mean(x = meanAge, w = ni, na.rm = T)
 
-#'### Reason not used
-table(dat$reasonNotUsed)
-
-#'### IGD measure used
+#'## IGD measure used
 sort(table(dat$gdMeasure), decreasing = T)
 
-#'### Correlate type
-table(dat$correlateType)
+#'## Correlate type proportions
+prop.table(table(dat$correlateType))*100
 
-#'### Design used
-table(dat$design)
+#'## Reason not used proportions
+prop.table(table(dat$reasonNotUsed))*100
 
-#'### Possible CoI
-table(dat$possibleCOI)
+#'## Design used proportions
+prop.table(table(dat$design))*100
+
+#'## Possible CoI proportions
+prop.table(table(dat$possibleCOI))*100
 
 # Meta-analysis -----------------------------------------------------------
 #'# Meta-analysis results for individual correlates
@@ -173,7 +172,7 @@ for(i in 1:length(corVect)){
 }
 (rmaTable <- lapply(rmaResults, function(x){maResultsTable(x, bias = biasOn)}) %$% as.data.frame(do.call(rbind, .)))
 
-# Meta-analysis plots (forest, funnel, p-curve plots)
+#'## Meta-analysis plots (forest, funnel, p-curve plots)
 forestPlots <- funnelPlots <- pcurvePlots <- list(NA)
 for(i in 1:length(corVect)){
   xlab <- eval(substitute(corVect[i]))
@@ -265,15 +264,16 @@ if(biasOn == TRUE){names(pcurvePlotsT) <- corVectT}
 # Corrections of statistical artifacts (measurement error and selection effects)
 xyArtefactCorResult <- xArtefactCorResult <- vector(mode = "list", length(corVect))
 names(xyArtefactCorResult) <- names(xArtefactCorResult) <- corVect
+#+ include == FALSE
 for(i in 1:length(corVect)){
-  artefactCorObj <- ma_r(ma_method = "ad", rxyi = yi, n = ni, sample_id = label, wt_type = "REML",
+  artefactCorObj <- (ma_r(ma_method = "ad", rxyi = yi, n = ni, sample_id = label, wt_type = "REML", 
                          rxx = rxxV1sample, ryy = rxxV2sample, ux = ux, uy = uy,
                          correct_rr_x = TRUE, correct_rr_y = TRUE, correct_rxx = TRUE, correct_ryy = TRUE, indirect_rr_x = indirectSel, indirect_rr_y = indirectSel,
-                         data = dat %>% filter(correlate == corVect[i] & !is.na(yi) & !is.na(ni)))
+                         data = dat %>% filter(correlate == corVect[i] & !is.na(yi) & !is.na(ni))))
   xyArtefactCorResult[[i]] <- data.frame(artefactCorObj$meta_tables$`analysis_id: 1`$artifact_distribution$true_score)[c(1,2,3,10,15,22,27,28)]
   xArtefactCorResult[[i]] <- data.frame(artefactCorObj$meta_tables$`analysis_id: 1`$artifact_distribution$validity_generalization_x)[c(1,2,3,10,15,22,27,28)]
 }
-
+#+ include == TRUE
 list("Correcting for measurement error in both, IGD and correlate" = do.call(rbind, xyArtefactCorResult),
      "Correcting for measurement error only in IGD" = do.call(rbind, xArtefactCorResult))
 
@@ -281,10 +281,9 @@ list("Correcting for measurement error in both, IGD and correlate" = do.call(rbi
 rmaObjectsZ <- rmaResultsZ <- vector(mode = "list", length(corVect))
 names(rmaObjectsZ) <- names(rmaResultsZ) <- corVect
 for(i in 1:length(corVect)){
-  rmaObject <- dat %>% filter(correlate == corVect[i]) %>% mutate(yi = yi_z, vi = vi_z) %>% rmaCustom()
-  rmaObjectsZ[[i]] <- predict(rmaObject[[1]], transf = transf.ztor)
+  rmaObjectsZ[[i]] <- predict((dat %>% filter(correlate == corVect[i]) %>% mutate(yi = yi_z, vi = vi_z) %>% rmaCustom())[[1]], transf = transf.ztor)
 }
-rmaObjectsZ
+do.call(rbind, rmaObjectsZ)[,c(1,3:8)]
 
 #'## Numerical inconsistencies in reported p-values
 #'
@@ -292,12 +291,12 @@ rmaObjectsZ
 nrow(statcheck) 
 #'#### how many papers reported results in APA format
 length(unique(statcheck$Source))
-#'#### how many statcheck errors
-prop.table(table(statcheck$Error))
-#'#### how many statcheck errors affected the decision
-table(statcheck$DecisionError)[2]/table(statcheck$Error)[2]
-#'#### How many papers contained statcheck errors
-statcheck %>% filter(Error == TRUE) %>% select(Source) %>% unique() %>% nrow()/length(unique(statcheck$Source))
+#'#### how many % statcheck errors
+prop.table(table(statcheck$Error))*100
+#'#### how many % statcheck errors affected the decision
+table(statcheck$DecisionError)[2]/table(statcheck$Error)["TRUE"]*100
+#'#### How many % papers contained statcheck errors
+statcheck %>% filter(Error == TRUE) %>% select(Source) %>% unique() %>% nrow()/length(unique(statcheck$Source))*100
 
 # Moderators of IGD  -----------------------------------------------------
 
@@ -411,9 +410,13 @@ meanAbsYi <- as.numeric(rma.mv(abs(yi), vi, data = dat, method = "REML", random 
 #'### Citation bias
 #' Do more highly-cited studies report larger effect sizes?
 (LMEcitationsYi <- summary(lmer(abs(yi) ~ scale(pubYear) + scale(journalH5) + scale(citations) + (1|study), data = dat, REML = T))$coefficients)
+#' Additionally taking into account precision of the effect (vi)
 (LMEcitationsYiVi <- summary(lmer(abs(yi) ~ scale(pubYear) + scale(journalH5) + scale(citations) + scale(vi) + (1|study), data = dat, REML = T))$coefficients)
 
-# Record session info
+# Save workspace
+save.image("workspace.RDS")
+
+#' Session info
 sessionInfo()
 
 #' **This is the supplementary analytic output for the paper Risk factors for Gaming Disorder: A meta-analysis **
