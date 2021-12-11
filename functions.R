@@ -1,5 +1,5 @@
 # Load libraries (and install if not installed already)
-list.of.packages <- c("car", "reshape", "tidyverse", "tidyr", "psych", "metafor", "meta", "psychmeta", "dmetar", "esc", "lme4", "ggplot2", "knitr", "puniform", "kableExtra", "lmerTest", "pwr", "Amelia", "multcomp", "magrittr", "weightr", "clubSandwich", "ddpcr", "poibin", "robvis", "RoBMA")
+list.of.packages <- c("car", "reshape", "tidyverse", "tidyr", "psych", "metafor", "meta", "psychmeta", "dmetar", "esc", "lme4", "ggplot2", "knitr", "puniform", "kableExtra", "lmerTest", "pwr", "Amelia", "multcomp", "magrittr", "weightr", "clubSandwich", "ddpcr", "poibin", "robvis", "RoBMA", "gplots")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
 
@@ -170,7 +170,6 @@ bma <- function(data, seedNo = 1, chainsNo = robmaChains, nIterationBMA = robmaS
 petPeese <- function(data, nBased = TRUE, selModAsCondEst = condEst){  # if nBased = TRUE, use the sample-size-based estimator, if FALSE, use the ordinary SE/var. If selModAsCondEst = TRUE, use the selection model as conditional estimator, otherwise use PET.
   data <- data %>% filter(useMeta == 1)
   viMatrix <- data %$% impute_covariance_matrix(vi, cluster = study, r = rho)  # compute the covariance matrix for the CHE working model
-  
   if(nBased == TRUE){
     pet <<- robust.rma.mv(rma.mv(yi = yi ~ sqrt(nTerm), V = viMatrix, random = ~ 1|study/result, method = "REML", sparse = TRUE, data = data), cluster = data$study)
   } else {
@@ -235,7 +234,7 @@ waapWLS <- function(yi, vi, est = c("WAAP-WLS"), long = FALSE) {
   
   # 1. determine which studies are in the top-N set
   
-  # "Here, we employ FE (or, equivalently, WLS) as the proxy for ‘true’ effect."
+  # FE (or, equivalently, WLS) as the proxy for ‘true’ effect.
   WLS.all  <- WLS.est(yi, vi, long=FALSE)
   true.effect <- WLS.all$estimate
   
@@ -243,9 +242,6 @@ waapWLS <- function(yi, vi, est = c("WAAP-WLS"), long = FALSE) {
   powered <- true.effect/2.8 >= sqrt(vi)
   
   # 2. compute the unrestricted weighted average (WLS) rma of either all or only adequatly powered studies
-  # "Thus, the estimate we employ here is a hybrid between WAAP and WLS; thereby called, ‘WAAP-WLS’"
-  # "If there is no or only one adequately powered study in a systematic review, WAAP’s standard error and confidence interval are undefined. In this case, we compute WLS across the entire research record."
-  # "When there are two or more adequately powered studies, WAAP is calculated using WLS’s formula from this subset of adequately powered studies."
   # Combined estimator: WAAP-WLS	
   kAdequate <- sum(powered,na.rm=T)
   
@@ -263,24 +259,26 @@ waapWLS <- function(yi, vi, est = c("WAAP-WLS"), long = FALSE) {
 
 # Median power for detecting SESOI and bias-corrected parameter estimates --------------
 
-powerEst <- function(data = NA){
+powerEst <- function(data = NA, forBiasAdj = TRUE){
   data <- data %>% filter(useMeta == 1)
   powerPEESE <- NA
   powerSM <- NA
   peeseEst <- petPeese(data)[1]
-  power20sd <- round(median(pwr::pwr.t.test(n = data[!is.na(data$ni),]$ni, d = .20)$power), 3)
-  power50sd <- round(median(pwr::pwr.t.test(n = data[!is.na(data$ni),]$ni, d = .50)$power), 3)
-  power70sd <- round(median(pwr::pwr.t.test(n = data[!is.na(data$ni),]$ni, d = .70)$power), 3)
-  powerPEESEresult <- round(median(pwr::pwr.t.test(n = data[!is.na(data$ni),]$ni, d = peeseEst)$power), 3)
-  powerSMresult <- round(median(pwr::pwr.t.test(n = data[!is.na(data$ni),]$ni, d = resultSM["est"])$power), 3)
-  c("Median power for detecting a SESOI of d = .20" = power20sd,
-    "Median power for detecting a SESOI of d = .50" = power50sd,
-    "Median power for detecting a SESOI of d = .70" = power70sd,
-    "Median power for detecting PET-PEESE estimate" = powerPEESEresult, 
-    "Median power for detecting 4/3PSM estimate" = powerSMresult)
-   
-   # "Median power for detecting PET-PEESE estimate" = ifelse(peeseEst > 0, powerPEESEresult, paste("ES estimate in the opposite direction")), 
-    # "Median power for detecting 4/3PSM estimate" = ifelse(resultSM["est"] > 0, powerSMresult, paste("ES estimate in the opposite direction")))
+  power10r <- round(median(pwr::pwr.r.test(n = data[!is.na(data$ni),]$ni, r = .10)$power), 3)
+  power30r <- round(median(pwr::pwr.r.test(n = data[!is.na(data$ni),]$ni, r = .30)$power), 3)
+  power50r <- round(median(pwr::pwr.r.test(n = data[!is.na(data$ni),]$ni, r = .50)$power), 3)
+  if(forBiasAdj == TRUE){
+    powerPEESEresult <- round(median(pwr::pwr.r.test(n = data[!is.na(data$ni),]$ni, r = peeseEst)$power), 3)
+    powerSMresult <- round(median(pwr::pwr.r.test(n = data[!is.na(data$ni),]$ni, r = resultSM["est"])$power), 3)
+  }
+  data.frame("Median power for detecting a SESOI of r = .10" = power10r,
+    "Median power for detecting a SESOI of r = .30" = power30r,
+    "Median power for detecting a SESOI of r = .50" = power50r,
+    "Median power for detecting PET-PEESE estimate" = ifelse(forBiasAdj == TRUE, powerPEESEresult, "Not calculated"), 
+    "Median power for detecting 4/3PSM estimate" = ifelse(forBiasAdj == TRUE, powerSMresult, "Not calculated"))
+  
+    # "Median power for detecting PET-PEESE estimate" = ifelse(forBiasAdj == TRUE, ifelse(peeseEst > 0, powerPEESEresult, paste("ES estimate in the opposite direction")), "Not calculated"), 
+    # "Median power for detecting 4/3PSM estimate" = ifelse(forBiasAdj == TRUE, ifelse(resultSM["est"] > 0, powerSMresult, paste("ES estimate in the opposite direction")), "Not calculated"))
 }
 
 # Publication bias summary function-------------------------------
@@ -399,10 +397,8 @@ maResultsTable <- function(maResultsObject, metaAnalysis = TRUE, bias = TRUE){
 # Return a result data frame either in wide or long format
 returnRes <- function(res, long = TRUE, reduce = TRUE) {
   if (is.null(res)) return(NULL)
-  
   # convert all factor columns to characters
   res %>% mutate_if(is.factor, as.character) -> res
-  
   if (long == FALSE) {
     # return wide format
     return(res)

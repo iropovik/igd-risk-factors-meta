@@ -15,12 +15,14 @@
 # NOTE: Please note that to run the script, you need the development versions of metafor and dmetar packages from github.
 
 rm(list = ls())
+startTime <- Sys.time()
+
 # Settings ----------------------------------------------------------------
 # What is the minimum number of effects to be synthesized
 kThreshold <- 10
 
 # Should bias-correction methods be applied to meta-analytic models?
-biasOn <- TRUE
+biasOn <- FALSE
 
 # Should the meta-analytic models exclude outlying, excessively influential effects?
 outlierSensitivity <- FALSE
@@ -30,13 +32,13 @@ selInfSensitivity <- FALSE
 
 # Controls for the multiple-parameter selection models 
 # No of simulations for the permutation-based bias correction models and p-curve specifically
-nIterations <- 3 # Set to 5 just to make code checking/running fast. For the final analysis, it should be set to 5000.
-nIterationsPcurve <- 3
-nIterationVWsensitivity <- 3 # Number of iterations for the Vevea & Woods (2005) step function model sensitivity analysis 
+nIterations <- 1000 # Set to 5 just to make code checking/running fast. For the final analysis, it should be set to 5000.
+nIterationsPcurve <- 2
+nIterationVWsensitivity <- 200 # Number of iterations for the Vevea & Woods (2005) step function model sensitivity analysis 
 # Number of chains and iterations for Robust Bayesian model-averaging approach
 runRobMA <- TRUE
 robmaChains <- 2
-robmaSamples <- 100
+robmaSamples <- 1000
 
 # Whether to apply a 4- or 3-parameter selection model. If fallback == TRUE, the procedure falls back to the 3-parameter selection model. 
 # This should be selected when too few effects in the opposite side make the estimate unstable.
@@ -72,7 +74,7 @@ condEst <- FALSE
 rho <- 0.5
 
 # Correct for indirect selection bias. If FALSE, only direct uni/bivariate selection will be accounted for.
-indirectSel <- FALSE
+indirectSel <- TRUE
 
 # Should the plots be displayed? If FALSE, plots will only be stored in respective list objects
 displayPlots <- FALSE
@@ -87,6 +89,73 @@ statcheck <- read.csv("statcheck.csv")
 #dat <- dat[-c(129, 131, 132, 321),]
 
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
+
+#' **This is the supplementary analytic output for the paper Risk factors for Gaming Disorder: A meta-analysis **
+#' 
+#' **It reports detailed results for all models reported in the paper. The analytic R script by which this html report was generated can be found on the project's OSF page at: [LINK].**
+#' 
+#' ------------------------------------
+#' 
+#' **Brief information about the methods used in the analysis:**
+#' 
+#' **RMA results with model-based SEs**
+#' k = number of studies; sqrt in "Variance components" = tau, the standard deviation of true effects; estimate in "Model results" = naive MA estimate
+#'
+#' **RVE SEs with Satterthwaite small-sample correction**
+#' Estimate based on a multilevel RE model with constant sampling correlation model (CHE - correlated hierarchical effects - working model) (Pustejovsky & Tipton, 2020; https://osf.io/preprints/metaarxiv/vyfcj/). 
+#' Interpretation of naive-meta-analysis should be based on these estimates.
+#'
+#' **Prediction interval**
+#' Shows the expected range of true effects in similar studies.
+#' As an approximation, in 95% of cases the true effect in a new *published* study can be expected to fall between PI LB and PI UB.
+#' Note that these are non-adjusted estimates. An unbiased newly conducted study will more likely fall in an interval centered around bias-adjusted estimate with a wider CI width.
+#'
+#' **Heterogeneity**
+#' Tau can be interpreted as the total amount of heterogeneity in the true effects. 
+#' I^2$ represents the ratio of true heterogeneity to total variance across the observed effect estimates. Estimates calculated by two approaches are reported.
+#' This is followed by separate estimates of between- and within-cluster heterogeneity and estimated intra-class correlation of underlying true effects.
+#' 
+#' **Proportion of significant results**
+#' What proportion of effects were statistically at the alpha level of .05.
+#' 
+#' **ES-precision correlation**
+#' Kendalls's correlation between the ES and precision.
+#' 
+#' **4/3PSM**
+#' Applies a permutation-based, step-function 4-parameter selection model (one-tailed p-value steps = c(.025, .5, 1)). 
+#' Falls back to 3-parameter selection model if at least one of the three p-value intervals contains less than 5 p-values.
+#' For this meta-analysis, we applied 3-parameter selection model by default as there were only 11 independent effects in the opposite direction overall (6%), causing the estimates to be unstable across iterations.
+#' pvalue = p-value testing H0 that the effect is zero. ciLB and ciUB are lower and upper bound of the CI. k = number of studies. steps = 3 means that the 4PSM was applied, 2 means that the 3PSM was applied.
+#' We also ran two sensitivity analyses of the selection model, the Vevea & Woods (2005) step function model with a priori defined selection weights and the Robust Bayesian Meta-analysis model employing the model-averaging approach (Bartoš & Maier, 2020).
+#' 
+#' **PET-PEESE**
+#' Estimated effect size of an infinitely precise study. Using 4/3PSM as the conditional estimator instead of PET (can be changed to PET). If the PET-PEESE estimate is in the opposite direction, the effect can be regarded nil. 
+#' By default (can be changed to PET), the function employs a modified sample-size based estimator (see https://www.jepusto.com/pet-peese-performance/). 
+#' It also uses the same RVE sandwich-type based estimator in a CHE (correlated hierarchical effects) working model with the identical random effects structure as the primary (naive) meta-analytic model. 
+#' 
+#' We report results for both, PET and PEESE, with the first reported one being the primary (based on the conditional estimator).
+#' 
+#' **WAAP-WLS**
+#' The combined WAAP-WLS estimator (weighted average of the adequately powered - weighted least squares) tries to identify studies that are adequately powered to detect the meta-analytic effect. 
+#' If there is less than two such studies, the method falls back to the WLS estimator (Stanley & Doucouliagos, 2015). If there are at least two adequately powered studies, WAAP returns a WLS estimate based on effects from only those studies.
+#' 
+#' type = 1: WAAP estimate, 2: WLS estimate. kAdequate = number of adequately powered studies
+#' 
+#' **p-uniform**
+#' P-uniform* is a selection model conceptually similar to p-curve. It makes use of the fact that p-values follow a uniform distribution at the true effect size while it includes also nonsignificant effect sizes.
+#' Permutation-based version of p-uniform method, the so-called p-uniform* (van Aert, van Assen, 2021).
+#' 
+#' **p-curve**
+#' Permutation-based p-curve method. Output should be self-explanatory. For more info see p-curve.com
+#' 
+#' **Power for detecting SESOI and bias-corrected parameter estimates**
+#' Estimates of the statistical power for detecting a smallest effect sizes of interest equal to .20, .50, and .70 in SD units (Cohen's d). 
+#' A sort of a thought experiment, we also assumed that population true values equal the bias-corrected estimates (4/3PSM or PET-PEESE) and computed power for those.
+#' 
+#' **Handling of dependencies in bias-correction methods**
+#' To handle dependencies among the effects, the 4PSM, p-curve, p-uniform are implemented using a permutation-based procedure, randomly selecting only one focal effect (i.e., excluding those which were not coded as being focal) from a single study and iterating nIterations times.
+#' Lastly, the procedure selects the result with the median value of the ES estimate (4PSM, p-uniform) or median z-score of the full p-curve (p-curve).
+
 # Descriptives ------------------------------------------------------------
 
 #'# Descriptives
@@ -130,8 +199,14 @@ c("Mean" = mean(unlist(out), na.rm = T), "SD" = sd(unlist(out), na.rm = T))
 #'## Weighted mean age of included samples
 dat[is.na(dat$reasonNotUsed) & !is.na(dat$ni),] %$% weighted.mean(x = meanAge, w = ni, na.rm = T)
 
+#'## Proportion of sample types
+prop.table(table(dat$sampleType))*100
+
+#'## Proportion for GD criteria usage
+prop.table(table(dat$gdCriteria))*100
+
 #'## IGD measure used
-sort(table(dat$gdMeasure), decreasing = T)
+sort(prop.table(table(dat$gdMeasure))*100, decreasing = T)
 
 #'## Correlate type proportions
 prop.table(table(dat$correlateType))*100
@@ -158,7 +233,7 @@ names(rmaObjects) <- names(rmaResults) <- names(metaResultsPcurve) <- corVect
 for(i in 1:length(corVect)){
   data <- dat %>% filter(correlate == corVect[i])
   if(outlierSensitivity == TRUE){
-    if(!is.null(infResults)){
+    if(!is.null(infResults)){ 
       data <- data %>% filter(!result %in% as.numeric(infResults[[i]]$rowname))
     }
   }
@@ -167,7 +242,7 @@ for(i in 1:length(corVect)){
   }
   rmaObject <- data %>% rmaCustom()
   rmaResults[[i]] <- data %>% maResults(., rmaObject = rmaObject, bias = biasOn)
-  if(biasOn == TRUE){metaResultsPcurve[[i]] <- metaResultPcurve}
+  if(biasOn == TRUE){metaResultsPcurve[[i]] <- if(is.list(metaResultsPcurve)){metaResultsPcurve} else {NA}}
   rmaObjects[[i]] <- rmaObject[[1]]
 }
 (rmaTable <- lapply(rmaResults, function(x){maResultsTable(x, bias = biasOn)}) %$% as.data.frame(do.call(rbind, .)))
@@ -199,13 +274,14 @@ names(rmaResultsED) <- corVectED
 for(i in 1:length(corVectED)){
   rmaResultsED[[i]] <- rma(yi, vi, data = dat %>% filter(correlate == corVectED[i]))
 }
+
 empiricalDirection <- cbind("correlate" = names(rmaResultsED), 
                             lapply(rmaResultsED, function(x){x[[1]]/abs(x[[1]])}) %$% as.data.frame(do.call(rbind, .)) %>% `colnames<-`("empiricalDirection")) %>% `rownames<-` (NULL)
 dat <- left_join(dat, empiricalDirection, by = "correlate")
 
 #'## Comparison of correlate types
 #'
-#' Model without covariates
+#'### Model without covariates
 viMatrix <- dat %$% impute_covariance_matrix(vi, cluster = study, r = rho)
 rmaObjectCorrType <- dat %>% mutate(yi = yi*empiricalDirection) %$% rma.mv(yi ~ 0 + correlateType, V = viMatrix, method = "REML", random = ~ 1|study/result, sparse = TRUE)
 (RVEmodelCorrType <- dat %$% list("k" = table(correlateType),
@@ -213,15 +289,15 @@ rmaObjectCorrType <- dat %>% mutate(yi = yi*empiricalDirection) %$% rma.mv(yi ~ 
                                   "CIs" = conf_int(rmaObjectCorrType, vcov = "CR2", test = "z", cluster = study),
                                   "RVE Wald test" = Wald_test(rmaObjectCorrType, constraints = constrain_equal(1:5), vcov = "CR2")))
 
-#' Model with covariates
+#'### Model with covariates
 #' 
 #' Controlling for design-related factors that are prognostic w.r.t. the effect sizes (i.e., might vary across moderator categories).
 rmaObjectCorrTypeCov <- dat %>% mutate(yi = yi*empiricalDirection) %$% rma.mv(yi ~ 0 + correlateType + meanAge + percFemale + gamingStyle + sampleType, V = viMatrix, method = "REML", random = ~ 1|study/result, sparse = TRUE)
 (RVEmodelCorrTypeCov <- dat %$% list("test" = coef_test(rmaObjectCorrTypeCov, vcov = "CR2", test = "z", cluster = study), 
-                                      "CIs" = conf_int(rmaObjectCorrTypeCov, vcov = "CR2", test = "z", cluster = study),
-                                      "RVE Wald test" = Wald_test(rmaObjectCorrTypeCov, constraints = constrain_equal(1:5), vcov = "CR2")))
+                                     "CIs" = conf_int(rmaObjectCorrTypeCov, vcov = "CR2", test = "z", cluster = study),
+                                     "RVE Wald test" = Wald_test(rmaObjectCorrTypeCov, constraints = constrain_equal(1:5), vcov = "CR2")))
 
-#'## Full results for correlate type subsets
+#'### Full results for correlate type subsets
 tabT <- sort(table(dat$correlateType), decreasing = T)[sort(table(dat$correlateType), decreasing = T) > kThreshold]
 corVectT <- names(tabT)
 rmaObjectsT <- rmaResultsT <- metaResultsPcurveT <- vector(mode = "list", length(corVectT))
@@ -243,7 +319,7 @@ for(i in 1:length(corVectT)){
 }
 (rmaTableT <- lapply(rmaResultsT, function(x){maResultsTable(x, bias = biasOn)}) %$% as.data.frame(do.call(rbind, .)))
 
-# Meta-analysis plots for aggregated correlate types (forest, funnel, p-curve plots)
+#'### Meta-analysis plots for aggregated correlate types (forest, funnel, p-curve plots)
 forestPlotsT <- pcurvePlotsT <- list(NA)
 for(i in 1:length(corVectT)){
   xlab <- eval(substitute(corVectT[i]))
@@ -257,66 +333,24 @@ for(i in 1:length(corVectT)){
 names(forestPlotsT) <- corVectT
 if(biasOn == TRUE){names(pcurvePlotsT) <- corVectT}
 
-# Sensitivity analyses ----------------------------------------------------
-
-#'## Sensitivity analyses
-
-# Corrections of statistical artifacts (measurement error and selection effects)
-xyArtefactCorResult <- xArtefactCorResult <- vector(mode = "list", length(corVect))
-names(xyArtefactCorResult) <- names(xArtefactCorResult) <- corVect
-#+ include == FALSE
-for(i in 1:length(corVect)){
-  artefactCorObj <- (ma_r(ma_method = "ad", rxyi = yi, n = ni, sample_id = label, wt_type = "REML", 
-                         rxx = rxxV1sample, ryy = rxxV2sample, ux = ux, uy = uy,
-                         correct_rr_x = TRUE, correct_rr_y = TRUE, correct_rxx = TRUE, correct_ryy = TRUE, indirect_rr_x = indirectSel, indirect_rr_y = indirectSel,
-                         data = dat %>% filter(correlate == corVect[i] & !is.na(yi) & !is.na(ni))))
-  xyArtefactCorResult[[i]] <- data.frame(artefactCorObj$meta_tables$`analysis_id: 1`$artifact_distribution$true_score)[c(1,2,3,10,15,22,27,28)]
-  xArtefactCorResult[[i]] <- data.frame(artefactCorObj$meta_tables$`analysis_id: 1`$artifact_distribution$validity_generalization_x)[c(1,2,3,10,15,22,27,28)]
-}
-#+ include == TRUE
-list("Correcting for measurement error in both, IGD and correlate" = do.call(rbind, xyArtefactCorResult),
-     "Correcting for measurement error only in IGD" = do.call(rbind, xArtefactCorResult))
-
-#'## Using Fisher's z instead of untransformed r
-rmaObjectsZ <- rmaResultsZ <- vector(mode = "list", length(corVect))
-names(rmaObjectsZ) <- names(rmaResultsZ) <- corVect
-for(i in 1:length(corVect)){
-  rmaObjectsZ[[i]] <- predict((dat %>% filter(correlate == corVect[i]) %>% mutate(yi = yi_z, vi = vi_z) %>% rmaCustom())[[1]], transf = transf.ztor)
-}
-do.call(rbind, rmaObjectsZ)[,c(1,3:8)]
-
-#'## Numerical inconsistencies in reported p-values
-#'
-#'#### how many results were analyzed
-nrow(statcheck) 
-#'#### how many papers reported results in APA format
-length(unique(statcheck$Source))
-#'#### how many % statcheck errors
-prop.table(table(statcheck$Error))*100
-#'#### how many % statcheck errors affected the decision
-table(statcheck$DecisionError)[2]/table(statcheck$Error)["TRUE"]*100
-#'#### How many % papers contained statcheck errors
-statcheck %>% filter(Error == TRUE) %>% select(Source) %>% unique() %>% nrow()/length(unique(statcheck$Source))*100
-
 # Moderators of IGD  -----------------------------------------------------
 
 #'# Moderation analyses
 #'
 #'## Substantive Moderators of IGD
-dat <- dat %>% mutate(percFemale = as.numeric(percFemale),
-                      meanAge = as.numeric(meanAge),
-                      gamingStyle = as.factor(gamingStyle),
-                      platform = as.factor(platform),
-                      sampleType = as.factor(sampleType),
-                      gdCriteria = as.factor(gdCriteria))
 
-mods <- dat %>% select(c(percFemale, meanAge, gamingStyle, platform, sampleType, gdCriteria)) %>% names()
-
+mods <- dat %>% select(c(percFemale, meanAge, sampleType, gdCriteria)) %>% names()
 rmaModObjects <- rmaModTest <- vector(mode = "list", length(mods))
 names(rmaModObjects) <- names(rmaModObjects) <- mods
 for(i in 1:length(mods)){
   for(j in 1:length(corVect)){
-    data <- dat %>% filter(correlate == corVect[j] & !is.na(gdCriteria) & !is.na(yi))
+    data <- dat %>% filter(correlate == corVect[j] & !is.na(yi))
+    data <- data %>% mutate(percFemale = scale(as.numeric(percFemale)),
+                            meanAge = scale(as.numeric(meanAge)),
+                            sampleTypeBinary = factor(dplyr::recode(sampleType, `3` = 1, `4` = 1, `1` = 2, `2` = 2, `5` = NA_real_, `6` = NA_real_)),
+                            gdCriteriaBinary = factor(dplyr::recode(gdCriteria, `1` = 1, `2` = 1, `3` = 2, `4` = 1, `5` = NA_real_)),
+                            yi = yi_z, 
+                            vi = vi_z)
     if(outlierSensitivity == TRUE){
       if(!is.null(infResults)){
         data <- data %>% filter(!result %in% as.numeric(infResults[[i]]$rowname))
@@ -328,12 +362,26 @@ for(i in 1:length(mods)){
     viMatrix <- data %$% impute_covariance_matrix(vi, cluster = study, r = rho)
     rmaModObject <- tryCatch(rma.mv(data$yi, V = viMatrix, mods = ~ data[,mods[i]], method = "REML", random = ~ 1|data[,"study"]/data[,"result"], sparse = TRUE), error = function(e) NULL)
     rmaModObjects[[i]][[j]] <- rmaModObject
-    rmaModTest[[i]][[j]] <- c("Qm stat" = round(rmaModObject$QM, 2), "df" = as.integer(rmaModObject$QMdf[1]), "p" = round(rmaModObject$QMp, 2))
+    rmaModTest[[i]][[j]] <- c("Mod estimate" = round(rmaModObject$beta[2], 2), "Qm stat" = round(rmaModObject$QM, 2), "df" = as.integer(rmaModObject$QMdf[1]), "p" = round(rmaModObject$QMp, 3))
   }
   names(rmaModObjects[[i]]) <- names(rmaModTest[[i]]) <- corVect
 }
 names(rmaModTest) <- mods
 (modResults <- lapply(as.data.frame(do.call(rbind, rmaModTest)), function(x){as.data.frame(x)}))
+
+#' Heatplot for metric + dichotomized moderators based on effect size magnitudes
+#' The first four correlates are the ones found act protectively.
+
+modHeatmapData <- cbind(
+  do.call(rbind, lapply(modResults, function(x)x[1,])) %>% `colnames<-`(c("% female", "Mean age", "Sample type", "GD criteria")),
+  do.call(rbind, lapply(modResults, function(x)x[4,])) %>% `colnames<-`(c("percFemaleP", "meanAgeP", "Sample type p", "GD criteria p")))
+modHeatmapData <- modHeatmapData[c(8, 19, 24, 29, 1:7, 9:18, 20:23, 25:28),]
+modHeatmapData <- modHeatmapData %>% mutate(cellnotePercFemale = paste("Est = ", modHeatmapData[,1], ", p = ", modHeatmapData[,5], sep = ""),
+                                            cellnoteMeanAge = paste("Est = ", modHeatmapData[,2], ", p = ", modHeatmapData[,6], sep = ""),
+                                            cellnoteSampleType = paste("Est = ", modHeatmapData[,3], ", p = ", modHeatmapData[,7], sep = ""),
+                                            cellnoteGDcriteria = paste("Est = ", modHeatmapData[,4], ", p = ", modHeatmapData[,8], sep = ""))
+heatmap.2(as.matrix(modHeatmapData[,1:4]), cellnote = modHeatmapData[,9:12], notecex = 1, cexCol = 1.2, srtCol = 45, cexRow = 1.2, key = FALSE, notecol = "black", dendrogram = "none", Rowv = FALSE, Colv = FALSE, trace = "none", col = bluered, tracecol = "#303030",
+          lmat = rbind(c(0, 3), c(1, 2), c(2, 4)), lhei = c(.1, 10, 1), lwid = c(.5, .2))
 
 # Methodological moderators -----------------------------------------------
 
@@ -413,74 +461,69 @@ meanAbsYi <- as.numeric(rma.mv(abs(yi), vi, data = dat, method = "REML", random 
 #' Additionally taking into account precision of the effect (vi)
 (LMEcitationsYiVi <- summary(lmer(abs(yi) ~ scale(pubYear) + scale(journalH5) + scale(citations) + scale(vi) + (1|study), data = dat, REML = T))$coefficients)
 
+# Sensitivity analyses ----------------------------------------------------
+
+#'# Sensitivity analyses
+
+#'## Corrections of statistical artifacts 
+#'
+#' Corrections for measurement error and selection effects
+#' Indirect selection bias not adjusted for intelligence due to low k + missing reliability data
+xyArtefactCorResult <- xArtefactCorResult <- vector(mode = "list", length(corVect))
+names(xyArtefactCorResult) <- names(xArtefactCorResult) <- corVect
+#+ include == FALSE
+for(i in 1:length(corVect)){
+  artefactCorObj <- ma_r(ma_method = ifelse(indirectSel == TRUE, "ic", "ad"), rxyi = yi, n = ni, sample_id = label, 
+                         rxx = rxxV1sample, ryy = rxxV2sample, ux = ux, uy = uy,
+                         correct_rxx = TRUE, correct_ryy = TRUE, correct_rr_x = TRUE, correct_rr_y = TRUE, 
+                         indirect_rr_x = indirectSel, indirect_rr_y = indirectSel,
+                         data = dat %>% filter(correlate == corVect[i] & !is.na(yi) & !is.na(ni)))
+  xyArtefactCorResult[[i]] <- data.frame(artefactCorObj$meta_tables[[1]][[ifelse(indirectSel == TRUE, 2, 3)]]$true_score)[c("k", "N", "mean_r", "mean_rho", "sd_rho", "CI_LL_95", "CI_UL_95")]
+  xArtefactCorResult[[i]] <- data.frame(artefactCorObj$meta_tables[[1]][[ifelse(indirectSel == TRUE, 2, 3)]]$validity_generalization_x)[c("k", "N", "mean_r", "mean_rho", "sd_rho", "CI_LL_95", "CI_UL_95")]
+}
+
+#+ include == TRUE
+#' Full results
+(artCorResult <- list("Correcting for measurement error in both, IGD and correlate" = do.call(rbind, xyArtefactCorResult),
+                      "Correcting for measurement error only in IGD" = do.call(rbind, xArtefactCorResult)))
+#' Just the estimates + delta
+cbind(rownames_to_column(artCorResult[[2]])[1], r = abs(artCorResult[[2]]$mean_r), rho = abs(artCorResult[[2]]$mean_rho), diff = abs(artCorResult[[2]]$mean_r) - abs(artCorResult[[2]]$mean_rho))
+
+#'## Using Fisher's z instead of untransformed r
+rmaObjectsZ <- rmaResultsZ <- vector(mode = "list", length(corVect))
+names(rmaObjectsZ) <- names(rmaResultsZ) <- corVect
+for(i in 1:length(corVect)){
+  rmaObjectsZ[[i]] <- predict((dat %>% filter(correlate == corVect[i]) %>% mutate(yi = yi_z, vi = vi_z) %>% rmaCustom())[[1]], transf = transf.ztor)
+}
+do.call(rbind, rmaObjectsZ)[,c(1,3:8)]
+
+#'## Numerical inconsistencies in reported p-values
+#'
+#'#### how many results were analyzed
+nrow(statcheck) 
+#'#### how many papers reported results in APA format
+length(unique(statcheck$Source))/length(unique(dat[!is.na(dat$yi),]$paperID))
+#'#### how many % statcheck errors
+prop.table(table(statcheck$Error))*100
+#'#### how many % statcheck errors affected the decision
+table(statcheck$DecisionError)[2]/table(statcheck$Error)["TRUE"]*100
+#'#### How many % papers contained statcheck errors
+statcheck %>% filter(Error == TRUE) %>% select(Source) %>% unique() %>% nrow()/length(unique(statcheck$Source))*100
+
+#'## p-curve for the full literature
+(pCurveFull <- pcurvePerm(dat))
+pcurveMod(metaResultPcurve, effect.estimation = FALSE, plot = TRUE)
+title("p-curve for the full literature", cex.main = 1)
+
+#'## power for the full literature
+powerFull <- powerEst(dat, forBiasAdj = FALSE)
+powerFull$
+  
 # Save workspace
 save.image("workspace.RDS")
 
 #' Session info
 sessionInfo()
 
-#' **This is the supplementary analytic output for the paper Risk factors for Gaming Disorder: A meta-analysis **
-#' 
-#' **It reports detailed results for all models reported in the paper. The analytic R script by which this html report was generated can be found on the project's OSF page at: [LINK].**
-#' 
-#' ------------------------------------
-#' 
-#' **Brief information about the methods used in the analysis:**
-#' 
-#' **RMA results with model-based SEs**
-#' k = number of studies; sqrt in "Variance components" = tau, the standard deviation of true effects; estimate in "Model results" = naive MA estimate
-#'
-#' **RVE SEs with Satterthwaite small-sample correction**
-#' Estimate based on a multilevel RE model with constant sampling correlation model (CHE - correlated hierarchical effects - working model) (Pustejovsky & Tipton, 2020; https://osf.io/preprints/metaarxiv/vyfcj/). 
-#' Interpretation of naive-meta-analysis should be based on these estimates.
-#'
-#' **Prediction interval**
-#' Shows the expected range of true effects in similar studies.
-#' As an approximation, in 95% of cases the true effect in a new *published* study can be expected to fall between PI LB and PI UB.
-#' Note that these are non-adjusted estimates. An unbiased newly conducted study will more likely fall in an interval centered around bias-adjusted estimate with a wider CI width.
-#'
-#' **Heterogeneity**
-#' Tau can be interpreted as the total amount of heterogeneity in the true effects. 
-#' I^2$ represents the ratio of true heterogeneity to total variance across the observed effect estimates. Estimates calculated by two approaches are reported.
-#' This is followed by separate estimates of between- and within-cluster heterogeneity and estimated intra-class correlation of underlying true effects.
-#' 
-#' **Proportion of significant results**
-#' What proportion of effects were statistically at the alpha level of .05.
-#' 
-#' **ES-precision correlation**
-#' Kendalls's correlation between the ES and precision.
-#' 
-#' **4/3PSM**
-#' Applies a permutation-based, step-function 4-parameter selection model (one-tailed p-value steps = c(.025, .5, 1)). 
-#' Falls back to 3-parameter selection model if at least one of the three p-value intervals contains less than 5 p-values.
-#' For this meta-analysis, we applied 3-parameter selection model by default as there were only 11 independent effects in the opposite direction overall (6%), causing the estimates to be unstable across iterations.
-#' pvalue = p-value testing H0 that the effect is zero. ciLB and ciUB are lower and upper bound of the CI. k = number of studies. steps = 3 means that the 4PSM was applied, 2 means that the 3PSM was applied.
-#' We also ran two sensitivity analyses of the selection model, the Vevea & Woods (2005) step function model with a priori defined selection weights and the Robust Bayesian Meta-analysis model employing the model-averaging approach (Bartoš & Maier, 2020).
-#' 
-#' **PET-PEESE**
-#' Estimated effect size of an infinitely precise study. Using 4/3PSM as the conditional estimator instead of PET (can be changed to PET). If the PET-PEESE estimate is in the opposite direction, the effect can be regarded nil. 
-#' By default (can be changed to PET), the function employs a modified sample-size based estimator (see https://www.jepusto.com/pet-peese-performance/). 
-#' It also uses the same RVE sandwich-type based estimator in a CHE (correlated hierarchical effects) working model with the identical random effects structure as the primary (naive) meta-analytic model. 
-#' 
-#' We report results for both, PET and PEESE, with the first reported one being the primary (based on the conditional estimator).
-#' 
-#' **WAAP-WLS**
-#' The combined WAAP-WLS estimator (weighted average of the adequately powered - weighted least squares) tries to identify studies that are adequately powered to detect the meta-analytic effect. 
-#' If there is less than two such studies, the method falls back to the WLS estimator (Stanley & Doucouliagos, 2015). If there are at least two adequately powered studies, WAAP returns a WLS estimate based on effects from only those studies.
-#' 
-#' type = 1: WAAP estimate, 2: WLS estimate. kAdequate = number of adequately powered studies
-#' 
-#' **p-uniform**
-#' P-uniform* is a selection model conceptually similar to p-curve. It makes use of the fact that p-values follow a uniform distribution at the true effect size while it includes also nonsignificant effect sizes.
-#' Permutation-based version of p-uniform method, the so-called p-uniform* (van Aert, van Assen, 2021).
-#' 
-#' **p-curve**
-#' Permutation-based p-curve method. Output should be self-explanatory. For more info see p-curve.com
-#' 
-#' **Power for detecting SESOI and bias-corrected parameter estimates**
-#' Estimates of the statistical power for detecting a smallest effect sizes of interest equal to .20, .50, and .70 in SD units (Cohen's d). 
-#' A sort of a thought experiment, we also assumed that population true values equal the bias-corrected estimates (4/3PSM or PET-PEESE) and computed power for those.
-#' 
-#' **Handling of dependencies in bias-correction methods**
-#' To handle dependencies among the effects, the 4PSM, p-curve, p-uniform are implemented using a permutation-based procedure, randomly selecting only one focal effect (i.e., excluding those which were not coded as being focal) from a single study and iterating nIterations times.
-#' Lastly, the procedure selects the result with the median value of the ES estimate (4PSM, p-uniform) or median z-score of the full p-curve (p-curve).
+endTime <- Sys.time()
+endTime - startTime
