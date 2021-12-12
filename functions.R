@@ -365,7 +365,9 @@ maResultsTable <- function(maResultsObject, metaAnalysis = TRUE, bias = TRUE){
       "V&W [moderate/severe/extreme]" = if(is.numeric(maResultsObject[[6]][["Vevea & Woods SM"]])){paste(round(as.numeric(maResultsObject[[6]][["Vevea & Woods SM"]][1,1]), 2),"/",round(as.numeric(maResultsObject[[6]][["Vevea & Woods SM"]][2,1]), 2), "/", round(as.numeric(maResultsObject[[6]][["Vevea & Woods SM"]][3,1]), 2), sep = "")} else {NA},
       "RoBMA [95% CI]" = if(!is.null(maResultsObject[[6]][["Robust BMA"]])){paste(round(maResultsObject[[6]][["Robust BMA"]]$Mean[1], 2), " [", round(maResultsObject[[6]][["Robust BMA"]]$`0.025`[1], 2), ", ", round(maResultsObject[[6]][["Robust BMA"]]$`0.975`[1], 2), "]", sep = "")} else {NA},
       "PET-PEESE est [95% CI]" = paste(round(maResultsObject[[6]][["PET-PEESE"]][1], 2), " [", round(maResultsObject[[6]][["PET-PEESE"]][5], 2), ", ", round(maResultsObject[[6]][["PET-PEESE"]][6], 2), "]", sep = ""),
-      "PET-PEESE" = round(maResultsObject[[6]][["PET-PEESE"]][4], 3)
+      "PET-PEESE" = round(maResultsObject[[6]][["PET-PEESE"]][4], 3),
+      "Power to detect small SESOI" = rmaResults[[7]][[1]],
+      "Power to detect medium SESOI" = rmaResults[[7]][[2]]
     ))
   } else if (metaAnalysis == FALSE & bias == TRUE) {
     noquote(c(
@@ -376,7 +378,9 @@ maResultsTable <- function(maResultsObject, metaAnalysis = TRUE, bias = TRUE){
       "V&W [moderate/severe/extreme]" = if(is.numeric(maResultsObject[[6]][["Vevea & Woods SM"]])){paste(round(as.numeric(maResultsObject[[6]][["Vevea & Woods SM"]][1,1]), 2),"/",round(as.numeric(maResultsObject[[6]][["Vevea & Woods SM"]][2,1]), 2), "/", round(as.numeric(maResultsObject[[6]][["Vevea & Woods SM"]][3,1]), 2), sep = "")} else {NA},
       "RoBMA [95% CI]" = if(!is.null(maResultsObject[[6]][["Robust BMA"]])){paste(round(maResultsObject[[6]][["Robust BMA"]]$Mean[1], 2), " [", round(maResultsObject[[6]][["Robust BMA"]]$`0.025`[1], 2), ", ", round(maResultsObject[[6]][["Robust BMA"]]$`0.975`[1], 2), "]", sep = "")} else {NA},
       "PET-PEESE est [95% CI]" = paste(round(maResultsObject[[1]][["PET-PEESE"]][1], 2), " [", round(maResultsObject[[1]][["PET-PEESE"]][5], 2), ", ", round(maResultsObject[[1]][["PET-PEESE"]][6], 2), "]", sep = ""),
-      "PET-PEESE" = round(maResultsObject[[1]][["PET-PEESE"]][4], 3)
+      "PET-PEESE" = round(maResultsObject[[1]][["PET-PEESE"]][4], 3),
+      "Power to detect small SESOI" = rmaResults[[7]][[1]],
+      "Power to detect medium SESOI" = rmaResults[[7]][[2]]
     ))
   } else {
     noquote(c(

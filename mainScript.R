@@ -32,13 +32,13 @@ selInfSensitivity <- FALSE
 
 # Controls for the multiple-parameter selection models 
 # No of simulations for the permutation-based bias correction models and p-curve specifically
-nIterations <- 1000 # Set to 5 just to make code checking/running fast. For the final analysis, it should be set to 5000.
+nIterations <- 100 # Set to 5 just to make code checking/running fast. For the final analysis, it should be set to 1000
 nIterationsPcurve <- 2
-nIterationVWsensitivity <- 200 # Number of iterations for the Vevea & Woods (2005) step function model sensitivity analysis 
+nIterationVWsensitivity <- 5 # 200 Number of iterations for the Vevea & Woods (2005) step function model sensitivity analysis 
 # Number of chains and iterations for Robust Bayesian model-averaging approach
 runRobMA <- TRUE
 robmaChains <- 2
-robmaSamples <- 1000
+robmaSamples <- 100
 
 # Whether to apply a 4- or 3-parameter selection model. If fallback == TRUE, the procedure falls back to the 3-parameter selection model. 
 # This should be selected when too few effects in the opposite side make the estimate unstable.
@@ -74,7 +74,7 @@ condEst <- FALSE
 rho <- 0.5
 
 # Correct for indirect selection bias. If FALSE, only direct uni/bivariate selection will be accounted for.
-indirectSel <- TRUE
+indirectSel <- FALSE
 
 # Should the plots be displayed? If FALSE, plots will only be stored in respective list objects
 displayPlots <- FALSE
@@ -332,6 +332,29 @@ for(i in 1:length(corVectT)){
 }
 names(forestPlotsT) <- corVectT
 if(biasOn == TRUE){names(pcurvePlotsT) <- corVectT}
+
+#'## Summary forest plot
+rmaResultsT
+correlatesES <- lapply(c(rmaResults, rmaResultsT), function(x){cbind(x[[1]]$k.eff,
+                                                     x[[2]]$test$beta,
+                                                     x[[2]]$CIs$CI_L,
+                                                     x[[2]]$CIs$CI_U)}) %$% as.data.frame(do.call(rbind, .))
+rownames(correlatesES) <- c(rownames(rmaTable), rownames(rmaTableT))
+correlatesES <- rownames_to_column(correlatesES)
+colnames(correlatesES) <- c("Correlate", "k", "yi", "ciLB", "ciUB")
+
+par(mar=c(4,4,1,2))
+correlatesES %$% 
+  forest(yi, ci.lb = ciLB, ci.ub = ciUB, slab = Correlate, ilab = k, xlim = c(-1, 1), alim = c(-1.3,1.3),
+         ilab.xpos = .65, ilab.pos = 4, xlab="Meta-analytic effect size (Pearson's r)", header = "Risk or protective factor",
+         at=c(-.5, -.4, -.3, -.2, -.1, 0, .1, .2, .3, .4, .5, .6, .7), cex = .8,
+         rows=c(38:10, 7:1),
+         ylim=c(1, 43)
+         )
+text(.707, 39.5, "k", font = 2, cex = .8)
+text(-1.299, c(8.5,39.5), font = 2, cex = .8, pos = 4, c("Aggregate correlate types", "Individual correlate types"))
+
+
 
 # Moderators of IGD  -----------------------------------------------------
 
