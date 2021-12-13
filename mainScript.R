@@ -354,8 +354,6 @@ correlatesES %$%
 text(.707, 39.5, "k", font = 2, cex = .8)
 text(-1.299, c(8.5,39.5), font = 2, cex = .8, pos = 4, c("Aggregate correlate types", "Individual correlate types"))
 
-
-
 # Moderators of IGD  -----------------------------------------------------
 
 #'# Moderation analyses
@@ -393,18 +391,30 @@ names(rmaModTest) <- mods
 (modResults <- lapply(as.data.frame(do.call(rbind, rmaModTest)), function(x){as.data.frame(x)}))
 
 #' Heatplot for metric + dichotomized moderators based on effect size magnitudes
-#' The first four correlates are the ones found act protectively.
+#' The first four correlates are the ones found act to protectively.
 
 modHeatmapData <- cbind(
   do.call(rbind, lapply(modResults, function(x)x[1,])) %>% `colnames<-`(c("% female", "Mean age", "Sample type", "GD criteria")),
   do.call(rbind, lapply(modResults, function(x)x[4,])) %>% `colnames<-`(c("percFemaleP", "meanAgeP", "Sample type p", "GD criteria p")))
-modHeatmapData <- modHeatmapData[c(8, 19, 24, 29, 1:7, 9:18, 20:23, 25:28),]
-modHeatmapData <- modHeatmapData %>% mutate(cellnotePercFemale = paste("Est = ", modHeatmapData[,1], ", p = ", modHeatmapData[,5], sep = ""),
-                                            cellnoteMeanAge = paste("Est = ", modHeatmapData[,2], ", p = ", modHeatmapData[,6], sep = ""),
-                                            cellnoteSampleType = paste("Est = ", modHeatmapData[,3], ", p = ", modHeatmapData[,7], sep = ""),
-                                            cellnoteGDcriteria = paste("Est = ", modHeatmapData[,4], ", p = ", modHeatmapData[,8], sep = ""))
-heatmap.2(as.matrix(modHeatmapData[,1:4]), cellnote = modHeatmapData[,9:12], notecex = 1, cexCol = 1.2, srtCol = 45, cexRow = 1.2, key = FALSE, notecol = "black", dendrogram = "none", Rowv = FALSE, Colv = FALSE, trace = "none", col = bluered, tracecol = "#303030",
+modHeatmapData <- modHeatmapData[c(1, 8, 17, 19, 24, 29, 2:7, 9:16, 18, 20:23, 25:28),]
+modHeatmapData <- modHeatmapData %>% mutate(cellnotePercFemale = paste(modHeatmapData[,1], " (", ifelse(sub("^0+", "", sprintf("%.3f", round(modHeatmapData[,5], 3))) == "", paste("<.001"), sub("^0+", "", sprintf("%.3f", round(modHeatmapData[,5], 3)))), ")", sep = ""),
+                                            cellnoteMeanAge = paste(modHeatmapData[,2], " (", ifelse(sub("^0+", "", sprintf("%.3f", round(modHeatmapData[,6], 3))) == "", paste("<.001"), sub("^0+", "", sprintf("%.3f", round(modHeatmapData[,6], 3)))), ")", sep = ""),
+                                            cellnoteSampleType = paste(modHeatmapData[,3], " (", ifelse(sub("^0+", "", sprintf("%.3f", round(modHeatmapData[,7], 3))) == "", paste("<.001"), sub("^0+", "", sprintf("%.3f", round(modHeatmapData[,7], 3)))), ")", sep = ""),
+                                            cellnoteGDcriteria = paste(modHeatmapData[,4], " (", ifelse(sub("^0+", "", sprintf("%.3f", round(modHeatmapData[,8], 3))) == "", paste("<.001"), sub("^0+", "", sprintf("%.3f", round(modHeatmapData[,8], 3)))), ")", sep = ""))
+modHeatmapData <- rbind(NA, modHeatmapData[1:6,], NA, modHeatmapData[7:nrow(modHeatmapData),])
+rownames(modHeatmapData)[1] <- "––– Protective factors –––"
+rownames(modHeatmapData)[8] <- "––– Risk factors ––––––––"
+modHeatmapData[2:7,1:4] <- modHeatmapData[2:7,1:4]*-1 # Invert the protective factors so that the stronger positive relationship between the moderator and the outcome, the more red the color in the heatplot.
+modHeatmapData[1,9:10] <- "β (p-value)"
+modHeatmapData[1,11:12] <- "B (p-value)"
+heatmap.2(as.matrix(modHeatmapData[,1:4]), 
+          cellnote = modHeatmapData[,9:12], notecex = 1, cexCol = 1.2, srtCol = 45, cexRow = 1.2, key = FALSE, notecol = "black", dendrogram = "none", Rowv = FALSE, Colv = FALSE, trace = "none", col = bluered, tracecol = "#303030",
           lmat = rbind(c(0, 3), c(1, 2), c(2, 4)), lhei = c(.1, 10, 1), lwid = c(.5, .2))
+
+a <- ".03"
+ifelse(nchar(a) < 4, gsub('^([0]{3})([0]+)$', '\\1d\\2', a), NA)
+sprintf("%.3f", round(.03, 3))
+
 
 # Methodological moderators -----------------------------------------------
 
