@@ -33,7 +33,6 @@ rmaCustom <- function(data = NA){
 }
 
 # 95% prediction interval -------------------------------------------------
-
 pi95 <- function(rmaObject = NA){
   pi95Out <- c("95% PI LB" = round(predict.rma(rmaObject[[1]])$cr.lb, 3), "95% PI UB" = round(predict.rma(rmaObject[[1]])$cr.ub, 3))
   pi95Out
@@ -117,7 +116,6 @@ selectionModel <- function(data, minNoPvals = minPvalues, nIteration = nIteratio
   for(i in 1:nIteration){
     dataSM <<- data[!duplicated.random(data$study) & data$focal == 1,]
     res <- tryCatch(rma(yi, vi,  data = dataSM), error = function(e) NULL)
-    # if <= min.pvalues p-values in an interval: return NULL
     pTable <- table(cut(dataSM$p, breaks = c(0, .05, 0.5, 1)))
     if(fallback == TRUE | any(pTable < minNoPvals) | !anyNA(deltas)){
       threeFit <- tryCatch(selmodel(res, type = "stepfun", steps = steps, delta = deltas, alternative = "greater"),
@@ -170,6 +168,7 @@ bma <- function(data, seedNo = 1, chainsNo = robmaChains, nIterationBMA = robmaS
 petPeese <- function(data, nBased = TRUE, selModAsCondEst = condEst){  # if nBased = TRUE, use the sample-size-based estimator, if FALSE, use the ordinary SE/var. If selModAsCondEst = TRUE, use the selection model as conditional estimator, otherwise use PET.
   data <- data %>% filter(useMeta == 1)
   viMatrix <- data %$% impute_covariance_matrix(vi, cluster = study, r = rho)  # compute the covariance matrix for the CHE working model
+  
   if(nBased == TRUE){
     pet <<- robust.rma.mv(rma.mv(yi = yi ~ sqrt(nTerm), V = viMatrix, random = ~ 1|study/result, method = "REML", sparse = TRUE, data = data), cluster = data$study)
   } else {
