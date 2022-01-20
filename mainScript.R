@@ -1,6 +1,6 @@
 #' ---
 #' title: "Risk factors for Gaming Disorder: A meta-analysis"
-#' author: "Ivan Ropovik"
+#' author: "Ivan Ropovik, Marcel Martončik, Gabriel Baník, Lenka Vargová, Peter Babinčák, & Matúš Adamkovič"
 #' date: "`r Sys.Date()`"
 #' output:
 #'    html_document:
@@ -32,9 +32,9 @@ selInfSensitivity <- FALSE
 
 # Controls for the multiple-parameter selection models 
 # No of simulations for the permutation-based bias correction models and p-curve specifically
-nIterations <- 100 # Set to 5 just to make code checking/running fast. For the final analysis, it should be set to 1000
+nIterations <- 3 # Set to 5 just to make code checking/running fast. For the final analysis, it should be set to 1000
 nIterationsPcurve <- 2
-nIterationVWsensitivity <- 5 # 200 Number of iterations for the Vevea & Woods (2005) step function model sensitivity analysis 
+nIterationVWsensitivity <- 2 # 200 Number of iterations for the Vevea & Woods (2005) step function model sensitivity analysis 
 # Number of chains and iterations for Robust Bayesian model-averaging approach
 runRobMA <- TRUE
 robmaChains <- 2
@@ -90,9 +90,12 @@ statcheck <- read.csv("statcheck.csv")
 
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
 
-#' **This is the supplementary analytic output for the paper Risk factors for Gaming Disorder: A meta-analysis **
+#'#### Appendix E: Fully analytic output
+#'
+#' **This is the supplementary analytic output for the paper Risk factors for Gaming Disorder: A meta-analysis.**
 #' 
 #' **It reports detailed results for all models reported in the paper. The analytic R script by which this html report was generated can be found on the project's OSF page at: [LINK].**
+#' **Preprint of the paper is available here, Appendices A-D are available here: **
 #' 
 #' ------------------------------------
 #' 
@@ -155,6 +158,8 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
 #' **Handling of dependencies in bias-correction methods**
 #' To handle dependencies among the effects, the 4PSM, p-curve, p-uniform are implemented using a permutation-based procedure, randomly selecting only one focal effect (i.e., excluding those which were not coded as being focal) from a single study and iterating nIterations times.
 #' Lastly, the procedure selects the result with the median value of the ES estimate (4PSM, p-uniform) or median z-score of the full p-curve (p-curve).
+#' 
+#' ***
 
 # Descriptives ------------------------------------------------------------
 
@@ -205,7 +210,7 @@ prop.table(table(dat$sampleType))*100
 #'## Proportion for GD criteria usage
 prop.table(table(dat$gdCriteria))*100
 
-#'## IGD measure used
+#'## GD measure used
 sort(prop.table(table(dat$gdMeasure))*100, decreasing = T)
 
 #'## Correlate type proportions
@@ -319,22 +324,24 @@ for(i in 1:length(corVectT)){
 }
 (rmaTableT <- lapply(rmaResultsT, function(x){maResultsTable(x, bias = biasOn)}) %$% as.data.frame(do.call(rbind, .)))
 
-#'### Meta-analysis plots for aggregated correlate types (forest, funnel, p-curve plots)
-forestPlotsT <- pcurvePlotsT <- list(NA)
-for(i in 1:length(corVectT)){
-  xlab <- eval(substitute(corVectT[i]))
-  forest(rmaObjectsT[[i]], order = order(rmaObjectsT[[i]]$vi.f, decreasing = T), addpred = T, header="Paper/Study/Effect", xlab = xlab, mlab="", col="gray40")
-  forestPlotsT[[i]] <- recordPlot()
-  tryCatch(quiet(pcurveMod(metaResultsPcurveT[[i]], effect.estimation = FALSE, plot = TRUE)), error = function(e) NULL)
-  if(!is.null(metaResultsPcurveT[[i]])){title(xlab, cex.main = 1)} else {next}
-  pcurvePlotsT[[i]] <- recordPlot()
-  if(displayPlots == FALSE) dev.off()
-}
-names(forestPlotsT) <- corVectT
-if(biasOn == TRUE){names(pcurvePlotsT) <- corVectT}
+# #'### Meta-analysis plots for aggregated correlate types (forest, funnel, p-curve plots)
+# forestPlotsT <- pcurvePlotsT <- list(NA)
+# for(i in 1:length(corVectT)){
+#   xlab <- eval(substitute(corVectT[i]))
+#   forest(rmaObjectsT[[i]], order = order(rmaObjectsT[[i]]$vi.f, decreasing = T), addpred = T, header="Paper/Study/Effect", xlab = xlab, mlab="", col="gray40")
+#   forestPlotsT[[i]] <- recordPlot()
+#   tryCatch(quiet(pcurveMod(metaResultsPcurveT[[i]], effect.estimation = FALSE, plot = TRUE)), error = function(e) NULL)
+#   if(!is.null(metaResultsPcurveT[[i]])){title(xlab, cex.main = 1)} else {next}
+#   pcurvePlotsT[[i]] <- recordPlot()
+#   if(displayPlots == FALSE) dev.off()
+# }
+# names(forestPlotsT) <- corVectT
+# if(biasOn == TRUE){names(pcurvePlotsT) <- corVectT}
+
+#'## Detailed results for aggregated correlate types
+rmaResultsT
 
 #'## Summary forest plot
-rmaResultsT
 correlatesES <- lapply(c(rmaResults, rmaResultsT), function(x){cbind(x[[1]]$k.eff,
                                                      x[[2]]$test$beta,
                                                      x[[2]]$CIs$CI_L,
@@ -354,11 +361,11 @@ correlatesES %$%
 text(.707, 39.5, "k", font = 2, cex = .8)
 text(-1.299, c(8.5,39.5), font = 2, cex = .8, pos = 4, c("Aggregate correlate types", "Individual correlate types"))
 
-# Moderators of IGD  -----------------------------------------------------
+# Moderators of GD  -----------------------------------------------------
 
 #'# Moderation analyses
 #'
-#'## Substantive Moderators of IGD
+#'## Substantive Moderators of GD
 
 mods <- dat %>% select(c(percFemale, meanAge, sampleType, gdCriteria)) %>% names()
 rmaModObjects <- rmaModTest <- vector(mode = "list", length(mods))
@@ -390,6 +397,8 @@ for(i in 1:length(mods)){
 names(rmaModTest) <- mods
 (modResults <- lapply(as.data.frame(do.call(rbind, rmaModTest)), function(x){as.data.frame(x)}))
 
+#'## Heatplot for substantive moderators
+
 #' Heatplot for metric + dichotomized moderators based on effect size magnitudes
 #' The first four correlates are the ones found act to protectively.
 
@@ -410,11 +419,6 @@ modHeatmapData[1,11:12] <- "B (p-value)"
 heatmap.2(as.matrix(modHeatmapData[,1:4]), 
           cellnote = modHeatmapData[,9:12], notecex = 1, cexCol = 1.2, srtCol = 45, cexRow = 1.2, key = FALSE, notecol = "black", dendrogram = "none", Rowv = FALSE, Colv = FALSE, trace = "none", col = bluered, tracecol = "#303030",
           lmat = rbind(c(0, 3), c(1, 2), c(2, 4)), lhei = c(.1, 10, 1), lwid = c(.5, .2))
-
-a <- ".03"
-ifelse(nchar(a) < 4, gsub('^([0]{3})([0]+)$', '\\1d\\2', a), NA)
-sprintf("%.3f", round(.03, 3))
-
 
 # Methodological moderators -----------------------------------------------
 
@@ -506,20 +510,20 @@ xyArtefactCorResult <- xArtefactCorResult <- vector(mode = "list", length(corVec
 names(xyArtefactCorResult) <- names(xArtefactCorResult) <- corVect
 #+ include == FALSE
 for(i in 1:length(corVect)){
-  artefactCorObj <- ma_r(ma_method = ifelse(indirectSel == TRUE, "ic", "ad"), rxyi = yi, n = ni, sample_id = label, 
+  artefactCorObj <- suppressMessages(ma_r(ma_method = ifelse(indirectSel == TRUE, "ic", "ad"),rxyi = yi, n = ni, sample_id = label, 
                          rxx = rxxV1sample, ryy = rxxV2sample, ux = ux, uy = uy,
                          correct_rxx = TRUE, correct_ryy = TRUE, correct_rr_x = TRUE, correct_rr_y = TRUE, 
                          indirect_rr_x = indirectSel, indirect_rr_y = indirectSel,
-                         data = dat %>% filter(correlate == corVect[i] & !is.na(yi) & !is.na(ni)))
+                         data = dat %>% filter(correlate == corVect[i] & !is.na(yi) & !is.na(ni))))
   xyArtefactCorResult[[i]] <- data.frame(artefactCorObj$meta_tables[[1]][[ifelse(indirectSel == TRUE, 2, 3)]]$true_score)[c("k", "N", "mean_r", "mean_rho", "sd_rho", "CI_LL_95", "CI_UL_95")]
   xArtefactCorResult[[i]] <- data.frame(artefactCorObj$meta_tables[[1]][[ifelse(indirectSel == TRUE, 2, 3)]]$validity_generalization_x)[c("k", "N", "mean_r", "mean_rho", "sd_rho", "CI_LL_95", "CI_UL_95")]
 }
 
 #+ include == TRUE
-#' Full results
-(artCorResult <- list("Correcting for measurement error in both, IGD and correlate" = do.call(rbind, xyArtefactCorResult),
-                      "Correcting for measurement error only in IGD" = do.call(rbind, xArtefactCorResult)))
-#' Just the estimates + delta
+#'#### Full results
+(artCorResult <- list("Correcting for measurement error in both, GD and correlate" = do.call(rbind, xyArtefactCorResult),
+                      "Correcting for measurement error only in GD" = do.call(rbind, xArtefactCorResult)))
+#'#### Just the estimates + delta
 cbind(rownames_to_column(artCorResult[[2]])[1], r = abs(artCorResult[[2]]$mean_r), rho = abs(artCorResult[[2]]$mean_rho), diff = abs(artCorResult[[2]]$mean_r) - abs(artCorResult[[2]]$mean_rho))
 
 #'## Using Fisher's z instead of untransformed r
@@ -548,9 +552,8 @@ statcheck %>% filter(Error == TRUE) %>% select(Source) %>% unique() %>% nrow()/l
 pcurveMod(metaResultPcurve, effect.estimation = FALSE, plot = TRUE)
 title("p-curve for the full literature", cex.main = 1)
 
-#'## power for the full literature
-powerFull <- powerEst(dat, forBiasAdj = FALSE)
-powerFull$
+#'## Power for the full literature
+(powerFull <- powerEst(dat, forBiasAdj = FALSE))
   
 # Save workspace
 save.image("workspace.RDS")
@@ -558,5 +561,6 @@ save.image("workspace.RDS")
 #' Session info
 sessionInfo()
 
+#' Script running time
 endTime <- Sys.time()
 endTime - startTime
