@@ -22,7 +22,7 @@ startTime <- Sys.time()
 kThreshold <- 10
 
 # Should bias-correction methods be applied to meta-analytic models?
-biasOn <- FALSE
+biasOn <- TRUE
 
 # Should the meta-analytic models exclude outlying, excessively influential effects?
 outlierSensitivity <- FALSE
@@ -32,13 +32,13 @@ selInfSensitivity <- FALSE
 
 # Controls for the multiple-parameter selection models 
 # No of simulations for the permutation-based bias correction models and p-curve specifically
-nIterations <- 3 # Set to 5 just to make code checking/running fast. For the final analysis, it should be set to 1000
-nIterationsPcurve <- 2
-nIterationVWsensitivity <- 2 # 200 Number of iterations for the Vevea & Woods (2005) step function model sensitivity analysis 
+nIterations <- 500 # Set to 5 just to make code checking/running fast. For the final analysis, it should be set to 1000
+nIterationsPcurve <- 100
+nIterationVWsensitivity <- 100 # 200 Number of iterations for the Vevea & Woods (2005) step function model sensitivity analysis 
 # Number of chains and iterations for Robust Bayesian model-averaging approach
 runRobMA <- TRUE
-robmaChains <- 2
-robmaSamples <- 100
+robmaChains <- 4
+robmaSamples <- 1000
 
 # Whether to apply a 4- or 3-parameter selection model. If fallback == TRUE, the procedure falls back to the 3-parameter selection model. 
 # This should be selected when too few effects in the opposite side make the estimate unstable.
