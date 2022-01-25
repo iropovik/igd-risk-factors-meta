@@ -4,8 +4,8 @@ library(tidyverse)
 library(irr)
 
 rm(list = ls())
-firstCoder <- read_delim("firstCoder.csv", delim = ";")
-secondCoder <- read_delim("firstCoder.csv", delim = ";")
+firstCoder <- read_delim("rater1.csv", delim = ";")
+secondCoder <- read_delim("rater2.csv", delim = ";")
 
 ratersData <- list(firstCoder, secondCoder)
 
