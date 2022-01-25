@@ -30,6 +30,8 @@ blockquote {
 
 #### [Appendix D: Legacy references for forward citation search](#appD)
 
+#### [Appendix E: Full analytic outputs](https://github.com/iropovik/igd-risk-factors-meta/blob/main/mainScript.html)
+
 ***
 
 # Appendix A: Extended description of the methodology {#appA -}
@@ -114,6 +116,24 @@ Prior to our analyses, we carried out an in-depth diagnosis of the random-effect
 
 All the data, effect size conversion script, and the data analytic R script are freely available at the project’s Open Science Framework page [https://osf.io/9mzgr/](https://osf.io/9mzgr/). All models were fitted using restricted maximum-likelihood estimation using R packages _metafor_, version 2.5 (Viechtbauer, 2010) and _clubSandwich_, version 0.4.2. (Pustejovsky, 2020). The data analysis was carried out in R also using the following packages: _esc_ (Lüdecke, 2017), _tidyverse_ (Wickham et al., 2019), _lme4_ (Bates, Maechler, Bolker, Walker, 2015), _dmetar_ (Harrer et al., 2019), and _psych_ (Revelle, 2018).
 
+The accompanying R code allows the interested reader to change or fine-tune the following settings at the beginning of the mainScript (lines 22-80), with defaults in the brackets:
+
+1. The minimum number of effects to be synthesized (kThreshold <- 10)
+2. Should bias-correction methods be applied to meta-analytic models? (biasOn <- TRUE)
+3. Should the meta-analytic models exclude outlying, excessively influential effects? (outlierSensitivity <- FALSE)
+4. Should the meta-analytic models exclude effects based on selection inference approaches? (selInfSensitivity <- FALSE)
+5. Number of simulations for the permutation-based bias correction models and p-curve (nIterations <- 1000; nIterationsPcurve <- 200; nIterationVWsensitivity <- 200)
+6. Number of chains and iterations for Robust Bayesian model-averaging approach (runRobMA <- TRUE; robmaChains <- 4; robmaSamples <- 1000)
+7. Whether to apply a 4- or 3-parameter selection model. If fallback == TRUE, the procedure falls back to the 3-parameter selection model (fallback <- TRUE)
+8. The required number of p-values in each of the step intervals (minPvalues <- 4)
+9. Steps and delta parameters for Vevea & Woods selection models denoting moderate, severe, and extreme selection.
+10. Side argument for the p-uniform* and conditional estimator of PET-PEESE. For this application, we derived the side argument empirically from the direction of the majority of effect sizes, establishing risk and protective factors (side <- "right")
+11. Define whether to use one-tailed or two-tailed test for PET-PEESE, 3PSM, and p-uniform*, assuming alpha level of .05 for the two-tailed test (test <- "one-tailed")
+12. Should selection model be used as a conditional estimator for PET-PEESE? (condEst <- FALSE)
+13. Assumed constant sampling correlation for the CHE working model (rho <- 0.5)
+14. Should the script correct for indirect selection bias? If FALSE, only direct uni/bivariate selection is accounted for (indirectSel <- FALSE)
+15. Should the plots be displayed? If FALSE, plots will only be stored in respective list objects (displayPlots <- FALSE)
+
 ### Moderation analyses
 For each of the identified risk factors, we studied the following moderators of gaming disorder.   
  
@@ -173,10 +193,8 @@ In Appendix E, we also report the results of the following, more general sensiti
 
 # Appendix B: List of deviations from the pre-registered protocol {#appB}
 
-1. asdasdasd
-2. asdasda
-3. asdasda
-4. asadsasd
+1.  In the pre-registration, we stated that "[w]e will convert all the included effect sizes to a Pearson’s r (using a Fisher’s z-transformation). Ultimately, we stay on the conservative side and decided to present all the primary analyses using untransformed correlation coefficient, as Fisher's z-transformation tends to offset a slight negative bias in effect size estimates by a positive bias, which is always greater in absolute values than the underestimation in the untransformed correlations (see, e.g., Hunter & Schmidt, 1990). The use of untransformed coefficients (i.e., absence of transformations and back-transformations) also makes the entire analytic workflow and the presentation of results easier to follow. That said, we also carried out an analysis, where we estimated the target relationships with risk/protective factors using Fisher’s z-transformation and report the results in Appendix E.
+2. We aimed to examine moderation effects of gaming style, game genre, and platform. Although - following the pre-registration - we coded these variables, underreporting of these study aspects (see Appendix E) precluded any reasonably sound moderation analysis.
 
 ***
 

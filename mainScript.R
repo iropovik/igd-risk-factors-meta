@@ -32,9 +32,9 @@ selInfSensitivity <- FALSE
 
 # Controls for the multiple-parameter selection models 
 # No of simulations for the permutation-based bias correction models and p-curve specifically
-nIterations <- 500 # Set to 5 just to make code checking/running fast. For the final analysis, it should be set to 1000
-nIterationsPcurve <- 100
-nIterationVWsensitivity <- 100 # 200 Number of iterations for the Vevea & Woods (2005) step function model sensitivity analysis 
+nIterations <- 1000 # Set to 5 just to make code checking/running fast. For the final analysis, it should be set to 1000
+nIterationsPcurve <- 200
+nIterationVWsensitivity <- 200 # 200 Number of iterations for the Vevea & Woods (2005) step function model sensitivity analysis 
 # Number of chains and iterations for Robust Bayesian model-averaging approach
 runRobMA <- TRUE
 robmaChains <- 4
@@ -90,7 +90,7 @@ statcheck <- read.csv("statcheck.csv")
 
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
 
-#'#### Appendix E: Fully analytic output
+#'#### Appendix E: Analyses outputs
 #'
 #' **This is the supplementary analytic output for the paper Risk factors for Gaming Disorder: A meta-analysis.**
 #' 
@@ -115,7 +115,7 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
 #'
 #' **Heterogeneity**
 #' Tau can be interpreted as the total amount of heterogeneity in the true effects. 
-#' I^2$ represents the ratio of true heterogeneity to total variance across the observed effect estimates. Estimates calculated by two approaches are reported.
+#' I^2 represents the ratio of true heterogeneity to total variance across the observed effect estimates. Estimates calculated by two approaches are reported.
 #' This is followed by separate estimates of between- and within-cluster heterogeneity and estimated intra-class correlation of underlying true effects.
 #' 
 #' **Proportion of significant results**
@@ -548,7 +548,7 @@ table(statcheck$DecisionError)[2]/table(statcheck$Error)["TRUE"]*100
 statcheck %>% filter(Error == TRUE) %>% select(Source) %>% unique() %>% nrow()/length(unique(statcheck$Source))*100
 
 #'## p-curve for the full literature
-(pCurveFull <- pcurvePerm(dat))
+pCurveFull <- pcurvePerm(dat)
 pcurveMod(metaResultPcurve, effect.estimation = FALSE, plot = TRUE)
 title("p-curve for the full literature", cex.main = 1)
 
@@ -556,7 +556,7 @@ title("p-curve for the full literature", cex.main = 1)
 (powerFull <- powerEst(dat, forBiasAdj = FALSE))
   
 # Save workspace
-save.image("workspace.RDS")
+save.image("workspace.RData")
 
 #' Session info
 sessionInfo()
