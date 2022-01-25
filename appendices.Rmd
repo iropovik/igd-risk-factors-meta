@@ -30,7 +30,7 @@ blockquote {
 
 #### [Appendix D: Legacy references for forward citation search](#appD)
 
-#### [Appendix E: Full analytic outputs](https://github.com/iropovik/igd-risk-factors-meta/blob/main/mainScript.html)
+#### [Appendix E (external file) : Full analytic outputs](https://osf.io/2c8pt/)
 
 ***
 
