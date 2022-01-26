@@ -1,5 +1,5 @@
 ---
-title: "Risk factors for Gaming Disorder: A meta-analysis"
+title: "Risk and protective factors for (internet) gaming disorder: A meta-analysis"
 author: "Ivan Ropovik, Marcel Martončik, Gabriel Baník, Lenka Vargová, Peter Babinčák, & Matúš Adamkovič"
 output:
   html_document:
@@ -18,7 +18,7 @@ blockquote {
 }
 ```
 
-**This document contains Appendices A-D for the paper "Risk factors for Gaming Disorder: A meta-analysis". Preprint of the paper is available here:** 
+**This document contains Appendices A-D for the paper "Risk and protective factors for (internet) gaming disorder: A meta-analysis". Preprint of the paper is available here: https://psyarxiv.com/pg3rf/. Data, R code, and full analytic outputs are available at https://osf.io/9mzgr/.** 
 
 ***
 

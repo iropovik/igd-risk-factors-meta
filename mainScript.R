@@ -1,5 +1,5 @@
 #' ---
-#' title: "Risk factors for Gaming Disorder: A meta-analysis"
+#' title: "Risk and protective factors for (internet) gaming disorder: A meta-analysis"
 #' author: "Ivan Ropovik, Marcel Martončik, Gabriel Baník, Lenka Vargová, Peter Babinčák, & Matúš Adamkovič"
 #' date: "`r Sys.Date()`"
 #' output:
@@ -92,10 +92,10 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
 
 #'#### Appendix E: Analyses outputs
 #'
-#' **This is the supplementary analytic output for the paper Risk factors for Gaming Disorder: A meta-analysis.**
+#' **This is the supplementary analytic output for the paper "Risk and protective factors for (internet) gaming disorder: A meta-analysis".**
 #' 
-#' **It reports detailed results for all models reported in the paper. The analytic R script by which this html report was generated can be found on the project's OSF page at: [LINK].**
-#' **Preprint of the paper is available here, Appendices A-D are available here: **
+#' **It reports detailed results for all models reported in the paper. The analytic R script by which this html report was generated can be found on the project's OSF page at: https://osf.io/zdmcy/.**
+#' **Preprint of the paper is available here: https://psyarxiv.com/pg3rf/, Appendices A-D are available here: https://osf.io/zdmcy/**
 #' 
 #' ------------------------------------
 #' 
