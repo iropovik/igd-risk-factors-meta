@@ -252,6 +252,9 @@ for(i in 1:length(corVect)){
 }
 (rmaTable <- lapply(rmaResults, function(x){maResultsTable(x, bias = biasOn)}) %$% as.data.frame(do.call(rbind, .)))
 
+#'## Detailed results for individual correlates
+rmaResults
+
 #'## Meta-analysis plots (forest, funnel, p-curve plots)
 forestPlots <- funnelPlots <- pcurvePlots <- list(NA)
 for(i in 1:length(corVect)){
