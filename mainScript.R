@@ -22,7 +22,7 @@ startTime <- Sys.time()
 kThreshold <- 10
 
 # Should bias-correction methods be applied to meta-analytic models?
-biasOn <- TRUE
+biasOn <- FALSE
 
 # Should the meta-analytic models exclude outlying, excessively influential effects?
 outlierSensitivity <- FALSE
@@ -213,6 +213,16 @@ prop.table(table(dat$gdCriteria))*100
 #'## GD measure used
 sort(prop.table(table(dat$gdMeasure))*100, decreasing = T)
 
+#'## Gaming style
+#'
+#' 1 = predominantly online; 2 = predominantly offline; 3 = not specified
+prop.table(table(dat$gamingStyle))*100
+
+#'## Platform device used for gaming
+#'
+#' 1 = PC; 2 = console; 3 = mobile phone or tablet; 4 = multiple platforms; 5 = not specified
+prop.table(table(dat$platform))*100
+
 #'## Correlate type proportions
 prop.table(table(dat$correlateType))*100
 
@@ -254,6 +264,9 @@ for(i in 1:length(corVect)){
 
 #'## Detailed results for individual correlates
 rmaResults
+
+#'#### Median width of prediction intervals
+median(unlist(lapply(rmaResults, function(x)dist(c(x$`Prediction interval`[1], x$`Prediction interval`[2])))))
 
 #'## Meta-analysis plots (forest, funnel, p-curve plots)
 forestPlots <- funnelPlots <- pcurvePlots <- list(NA)
@@ -344,6 +357,14 @@ for(i in 1:length(corVectT)){
 #'## Detailed results for aggregated correlate types
 rmaResultsT
 
+#'#### Median width of prediction intervals
+#'
+#' For individual risk factors
+median(unlist(lapply(rmaResults, function(x)dist(c(x$`Prediction interval`[1], x$`Prediction interval`[2])))))
+#' For aggregated risk factor types
+median(unlist(lapply(rmaResultsT, function(x)dist(c(x$`Prediction interval`[1], x$`Prediction interval`[2])))))
+
+
 #'## Summary forest plot
 correlatesES <- lapply(c(rmaResults, rmaResultsT), function(x){cbind(x[[1]]$k.eff,
                                                      x[[2]]$test$beta,
@@ -363,6 +384,14 @@ correlatesES %$%
          )
 text(.707, 39.5, "k", font = 2, cex = .8)
 text(-1.299, c(8.5,39.5), font = 2, cex = .8, pos = 4, c("Aggregate correlate types", "Individual correlate types"))
+
+#'#### r ES converted to odds ratios
+ORs <- lapply(c(rmaResults, rmaResultsT), function(x)
+  {c("OR" = exp(log_odds(x[[2]]$test$beta)),
+     "ciLB" = exp(log_odds(x[[2]]$CIs$CI_L)),
+     "ciUB" = exp(log_odds(x[[2]]$CIs$CI_U))) %>% 
+    round(.,2)}) %$% as.data.frame(do.call(rbind, .)) 
+data.frame(cbind( "Risk factor" = rownames(ORs), "OR" = paste(ORs$OR, " [", ORs$ciLB, ", ", ORs$ciUB, "]", sep = "")))
 
 # Moderators of GD  -----------------------------------------------------
 
@@ -407,20 +436,21 @@ names(rmaModTest) <- mods
 
 modHeatmapData <- cbind(
   do.call(rbind, lapply(modResults, function(x)x[1,])) %>% `colnames<-`(c("% female", "Mean age", "Sample type", "GD criteria")),
+  do.call(rbind, lapply(modResults, function(x)x[2,])) %>% `colnames<-`(c("percFemaleQ", "meanAgeQ", "Sample type Q", "GD criteria Q")),
   do.call(rbind, lapply(modResults, function(x)x[4,])) %>% `colnames<-`(c("percFemaleP", "meanAgeP", "Sample type p", "GD criteria p")))
 modHeatmapData <- modHeatmapData[c(1, 8, 17, 19, 24, 29, 2:7, 9:16, 18, 20:23, 25:28),]
-modHeatmapData <- modHeatmapData %>% mutate(cellnotePercFemale = paste(modHeatmapData[,1], " (", ifelse(sub("^0+", "", sprintf("%.3f", round(modHeatmapData[,5], 3))) == "", paste("<.001"), sub("^0+", "", sprintf("%.3f", round(modHeatmapData[,5], 3)))), ")", sep = ""),
-                                            cellnoteMeanAge = paste(modHeatmapData[,2], " (", ifelse(sub("^0+", "", sprintf("%.3f", round(modHeatmapData[,6], 3))) == "", paste("<.001"), sub("^0+", "", sprintf("%.3f", round(modHeatmapData[,6], 3)))), ")", sep = ""),
-                                            cellnoteSampleType = paste(modHeatmapData[,3], " (", ifelse(sub("^0+", "", sprintf("%.3f", round(modHeatmapData[,7], 3))) == "", paste("<.001"), sub("^0+", "", sprintf("%.3f", round(modHeatmapData[,7], 3)))), ")", sep = ""),
-                                            cellnoteGDcriteria = paste(modHeatmapData[,4], " (", ifelse(sub("^0+", "", sprintf("%.3f", round(modHeatmapData[,8], 3))) == "", paste("<.001"), sub("^0+", "", sprintf("%.3f", round(modHeatmapData[,8], 3)))), ")", sep = ""))
+modHeatmapData <- modHeatmapData %>% mutate(cellnotePercFemale = paste(modHeatmapData[,1], " (", modHeatmapData[,5], ", ", ifelse(sub("^0+", "", sprintf("%.3f", round(modHeatmapData[,9], 3))) == "", paste("<.001"), sub("^0+", "", sprintf("%.3f", round(modHeatmapData[,9], 3)))), ")", sep = ""),
+                                            cellnoteMeanAge = paste(modHeatmapData[,2], " (", modHeatmapData[,6], ", ", ifelse(sub("^0+", "", sprintf("%.3f", round(modHeatmapData[,10], 3))) == "", paste("<.001"), sub("^0+", "", sprintf("%.3f", round(modHeatmapData[,10], 3)))), ")", sep = ""),
+                                            cellnoteSampleType = paste(modHeatmapData[,3], " (", modHeatmapData[,7], ", ", ifelse(sub("^0+", "", sprintf("%.3f", round(modHeatmapData[,11], 3))) == "", paste("<.001"), sub("^0+", "", sprintf("%.3f", round(modHeatmapData[,11], 3)))), ")", sep = ""),
+                                            cellnoteGDcriteria = paste(modHeatmapData[,4], " (", modHeatmapData[,8], ", ", ifelse(sub("^0+", "", sprintf("%.3f", round(modHeatmapData[,12], 3))) == "", paste("<.001"), sub("^0+", "", sprintf("%.3f", round(modHeatmapData[,12], 3)))), ")", sep = ""))
 modHeatmapData <- rbind(NA, modHeatmapData[1:6,], NA, modHeatmapData[7:nrow(modHeatmapData),])
 rownames(modHeatmapData)[1] <- "––– Protective factors –––"
 rownames(modHeatmapData)[8] <- "––– Risk factors ––––––––"
 modHeatmapData[2:7,1:4] <- modHeatmapData[2:7,1:4]*-1 # Invert the protective factors so that the stronger positive relationship between the moderator and the outcome, the more red the color in the heatplot.
-modHeatmapData[1,9:10] <- "β (p-value)"
-modHeatmapData[1,11:12] <- "B (p-value)"
+modHeatmapData[1,13:14] <- "β (Q, p-value)"
+modHeatmapData[1,15:16] <- "B (Q, p-value)"
 heatmap.2(as.matrix(modHeatmapData[,1:4]), 
-          cellnote = modHeatmapData[,9:12], notecex = 1, cexCol = 1.2, srtCol = 45, cexRow = 1.2, key = FALSE, notecol = "black", dendrogram = "none", Rowv = FALSE, Colv = FALSE, trace = "none", col = bluered, tracecol = "#303030",
+          cellnote = modHeatmapData[,13:16], notecex = 1, cexCol = 1.2, srtCol = 45, cexRow = 1.2, key = FALSE, notecol = "black", dendrogram = "none", Rowv = FALSE, Colv = FALSE, trace = "none", col = bluered, tracecol = "#303030",
           lmat = rbind(c(0, 3), c(1, 2), c(2, 4)), lhei = c(.1, 10, 1), lwid = c(.5, .2))
 
 # Methodological moderators -----------------------------------------------

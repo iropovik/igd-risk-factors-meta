@@ -385,7 +385,7 @@ maResultsTable <- function(maResultsObject, metaAnalysis = TRUE, bias = TRUE){
     noquote(c(
       "k" = as.numeric(maResultsObject[[1]]$k.all),
       "ES [95% CI]" = paste(round(as.numeric(maResultsObject[[2]]$test$beta), 2), " [", round(maResultsObject[[2]]$CIs$CI_L, 2), ", ", round(maResultsObject[[2]]$CIs$CI_U, 2), "]", sep = ""),
-      "95% PI [LB, UB]" = paste("[", maResultsObject$`Prediction interval`[1], ", ", maResultsObject$`Prediction interval`[2], "]", sep = ""),
+      "95% PI [LB, UB]" = paste("[", round(maResultsObject$`Prediction interval`[1], 2), ", ", round(maResultsObject$`Prediction interval`[2], 2), "]", sep = ""),
       "SE" = round(maResultsObject[[2]]$test$SE, 2),
       round(maResultsObject[[4]]["Tau"], 2),
       "I^2" = paste(round(maResultsObject[[4]]["I^2"], 0), "%", sep = "")
