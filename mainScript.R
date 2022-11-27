@@ -22,7 +22,7 @@ startTime <- Sys.time()
 kThreshold <- 10
 
 # Should bias-correction methods be applied to meta-analytic models?
-biasOn <- FALSE
+biasOn <- TRUE
 
 # Should the meta-analytic models exclude outlying, excessively influential effects?
 outlierSensitivity <- FALSE
@@ -33,8 +33,8 @@ selInfSensitivity <- FALSE
 # Controls for the multiple-parameter selection models 
 # No of simulations for the permutation-based bias correction models and p-curve specifically
 nIterations <- 1000 # Set to 5 just to make code checking/running fast. For the final analysis, it should be set to 1000
-nIterationsPcurve <- 200
-nIterationVWsensitivity <- 200 # 200 Number of iterations for the Vevea & Woods (2005) step function model sensitivity analysis 
+nIterationsPcurve <- 100
+nIterationVWsensitivity <- 100 # 200 Number of iterations for the Vevea & Woods (2005) step function model sensitivity analysis 
 # Number of chains and iterations for Robust Bayesian model-averaging approach
 runRobMA <- TRUE
 robmaChains <- 4
@@ -205,9 +205,13 @@ c("Mean" = mean(unlist(out), na.rm = T), "SD" = sd(unlist(out), na.rm = T))
 dat[is.na(dat$reasonNotUsed) & !is.na(dat$ni),] %$% weighted.mean(x = meanAge, w = ni, na.rm = T)
 
 #'## Proportion of sample types
+#'
+#' 1 = gamers other than esport; 2 = esport (competitive) gamers; 3 = general population; 4 = university students; 5 = clinical population;  6 = other
 prop.table(table(dat$sampleType))*100
 
 #'## Proportion for GD criteria usage
+#'
+#' Presence of the GD diagnostic category was based on: 1 = DSM5 ≥ 5 criteria; 2 = LCA cut off; 3 = no criteria used - IGD treated as interval variable; 4 = clinical assessmet; 5 = other type of criteria; integer
 prop.table(table(dat$gdCriteria))*100
 
 #'## GD measure used
@@ -224,12 +228,18 @@ prop.table(table(dat$gamingStyle))*100
 prop.table(table(dat$platform))*100
 
 #'## Correlate type proportions
+#'
+#' 1 = demographic; 2 = social; 3 = psychological; 4 = environmental; 5 = other; integer
 prop.table(table(dat$correlateType))*100
 
 #'## Reason not used proportions
+#'
+#' 1 = GD not compatible with ICD11 or DSM5; 2 = data for computing the ES missing; 3 = not a bivariate relationship; 4 = product of other included variables (e.g., sumscore); 5 = other (e.g. abstract only, other language than ENG, not empirical study); integer
 prop.table(table(dat$reasonNotUsed))*100
 
 #'## Design used proportions
+#'
+#' 1 = cross-sectional; 2 = pre-existing groups; 3 = experiment; 4 = longitudinal; 5 = other; integer
 prop.table(table(dat$design))*100
 
 #'## Possible CoI proportions
